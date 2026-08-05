@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+:root {
+  /* Base surfaces — pulled from the printed menu's near-black, ember-lit background */
+  --color-ink: #0a0605;
+  --color-ink-deep: #050302;
+  --color-ember: #3a0f09;
+  --color-ember-bright: #7a1f10;
+  --color-charcoal: #1c110b;
+  --color-espresso: #2e1b12;
+
+  /* Brand accents — pulled from the En Llamas 87 logo */
+  --color-gold: #c89a4b;
+  --color-gold-bright: #e3b563;
+  --color-flame-red: #d8481e;
+  --color-flame-gold: #e8a227;
+  --color-cream: #f2ead9;
+  --color-parchment: #a89a89;
+  --color-line: rgba(200, 154, 75, 0.22);
+
+  --background: var(--color-ink);
+  --foreground: var(--color-cream);
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-deep: var(--color-ink-deep);
+  --color-ember: var(--color-ember);
+  --color-ember-bright: var(--color-ember-bright);
+  --color-charcoal: var(--color-charcoal);
+  --color-espresso: var(--color-espresso);
+  --color-gold: var(--color-gold);
+  --color-gold-bright: var(--color-gold-bright);
+  --color-flame-red: var(--color-flame-red);
+  --color-flame-gold: var(--color-flame-gold);
+  --color-cream: var(--color-cream);
+  --color-parchment: var(--color-parchment);
+  --color-line: var(--color-line);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-display: var(--font-playfair);
+  --font-script: var(--font-cormorant);
+  --font-sans: var(--font-inter);
+  --font-brand: var(--font-bevan);
+
+  --animate-flicker: flicker 4s ease-in-out infinite;
+  --animate-ember-rise: ember-rise 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-ink);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-flame-red);
+  color: var(--color-cream);
+}
+
+/* Shared radial ember glow used behind hero + section headers, matching the menu's lit-from-below look */
+.ember-field {
+  position: relative;
+  isolation: isolate;
+}
+
+.ember-field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60% 45% at 50% 0%, var(--color-ember) 0%, transparent 70%),
+    radial-gradient(80% 60% at 50% 100%, var(--color-ember-bright) 0%, transparent 65%),
+    var(--color-ink);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.section-kicker {
+  font-family: var(--font-script);
+  font-style: italic;
+  color: var(--color-gold-bright);
+  letter-spacing: 0.02em;
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.divider-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-line), transparent);
+}
+
+/*
+ * Placeholder "photography" treatment used until real dish photography is
+ * available (see src/lib/menu-data.ts featuredDishes TODO). Layered ember
+ * gradients + a faint logo watermark stand in for an image without looking
+ * like an empty box — swap for a real background-image per card later.
+ */
+.dish-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  background:
+    radial-gradient(120% 90% at 30% 15%, var(--color-ember-bright) 0%, transparent 55%),
+    radial-gradient(100% 80% at 85% 95%, var(--color-ember) 0%, transparent 60%),
+    linear-gradient(165deg, var(--color-charcoal) 0%, var(--color-ink) 100%);
+}
+
+.dish-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/assets/logo/logo-mono-cream.png");
+  background-repeat: no-repeat;
+  background-position: center 25%;
+  background-size: 160%;
+  opacity: 0.05;
+  mix-blend-mode: screen;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+.dish-card:hover::before {
+  transform: scale(1.06);
+  opacity: 0.08;
+}
+
+.dish-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5, 3, 2, 0.92) 0%, rgba(5, 3, 2, 0.15) 55%, transparent 75%);
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  8% { opacity: 0.85; }
+  22% { opacity: 1; }
+  40% { opacity: 0.92; }
+  63% { opacity: 1; }
+  78% { opacity: 0.88; }
+}
+
+@keyframes ember-rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.8; }
+  100% { transform: translateY(-120vh) translateX(var(--drift, 20px)); opacity: 0; }
+}
+
+/* Hero logo emblem — slow idle float + a 1-3deg rotation, kept separate from
+   the mouse-parallax tilt (applied on a parent) so the two transforms don't
+   fight over the same element. */
+@keyframes emblem-float {
+  0%   { transform: translateY(0) rotate(-1.5deg); }
+  50%  { transform: translateY(-14px) rotate(1.5deg); }
+  100% { transform: translateY(0) rotate(-1.5deg); }
+}
+
+.emblem-float {
+  animation: emblem-float 9s ease-in-out infinite;
+}
+
+@keyframes emblem-glow-pulse {
+  0%, 100% { opacity: 0.32; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.08); }
+}
+
+.emblem-glow {
+  animation: emblem-glow-pulse 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,110 @@
+import { siteConfig } from "@/lib/menu-data";
+import SocialIcons from "./SocialIcons";
+import PaymentMethods from "./PaymentMethods";
+import PhoneLinks from "./PhoneLinks";
+
+const EXPLORE_LINKS = [
+  { href: "/#story", label: "Our Story" },
+  { href: "/menu", label: "Menu" },
+  { href: "/drinks", label: "Drinks" },
+  { href: "/gallery", label: "Gallery" },
+];
+
+const VISIT_LINKS = [
+  { href: "/order", label: "Order Online" },
+  { href: "/catering", label: "Catering" },
+  { href: "/bulk-orders", label: "Bulk Orders" },
+  { href: "/contact", label: "Contact" },
+];
+
+export default function Footer() {
+  return (
+    <footer className="border-t border-line bg-ink-deep">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+        <div className="grid gap-12 sm:grid-cols-2 md:grid-cols-4">
+          <div>
+            <p className="font-display text-lg tracking-[0.15em] text-cream">
+              {siteConfig.displayName.toUpperCase()}
+            </p>
+            <p className="mt-1 font-script text-sm italic text-parchment/70">
+              {siteConfig.tagline}
+            </p>
+            <p className="mt-4 font-sans text-xs leading-relaxed text-parchment/60">
+              {siteConfig.address.full}
+            </p>
+            <PhoneLinks className="mt-2 font-sans text-xs text-parchment/60" />
+          </div>
+
+          <div>
+            <h3 className="text-[11px] uppercase tracking-[0.25em] text-gold">
+              Explore
+            </h3>
+            <ul className="mt-4 space-y-2">
+              {EXPLORE_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="font-sans text-sm text-parchment/80 transition-colors hover:text-gold-bright"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-[11px] uppercase tracking-[0.25em] text-gold">
+              Visit
+            </h3>
+            <ul className="mt-4 space-y-2">
+              {VISIT_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="font-sans text-sm text-parchment/80 transition-colors hover:text-gold-bright"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-[11px] uppercase tracking-[0.25em] text-gold">
+              Follow Our Journey
+            </h3>
+            <p className="mt-4 font-sans text-xs text-parchment/50">
+              {/* TODO: add real handles in src/config/business.ts */}
+              Official channels coming soon.
+            </p>
+            <SocialIcons className="mt-4" iconClassName="h-[18px] w-[18px]" />
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-line">
+        <div className="mx-auto max-w-6xl px-6 py-6 md:px-10">
+          <div className="flex flex-col items-center gap-3 rounded-sm border border-line px-5 py-4 sm:flex-row sm:justify-between">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-parchment/40">
+              Payment Methods Accepted
+            </p>
+            <PaymentMethods />
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-line">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-6 py-6 text-center md:flex-row md:justify-between md:px-10">
+          <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-parchment/40">
+            &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+          </p>
+          <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-parchment/30">
+            Amantes de la Parrilla
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
