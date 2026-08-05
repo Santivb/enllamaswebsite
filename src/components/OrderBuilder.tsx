@@ -82,14 +82,33 @@ const inputClasses =
   "w-full rounded-sm border border-line bg-charcoal/60 px-4 py-3 font-sans text-sm text-cream placeholder:text-parchment/40 outline-none transition-colors focus:border-gold";
 const labelClasses = "mb-2 block text-[11px] uppercase tracking-[0.2em] text-gold";
 
-type Status = "idle" | "submitting" | "success" | "error" | "not-configured";
+type Status =
+  | "idle"
+  | "submitting"
+  | "success"
+  | "error"
+  | "not-configured"
+  | "confirming-payment"
+  | "payment-success"
+  | "payment-error";
+
+type PaymentConfirmation = {
+  itemsSummary: string;
+  total: string;
+  fulfillment: string;
+};
 
 export default function OrderBuilder() {
   const categories = useMemo(() => buildOrderableCategories(), []);
   const [cart, setCart] = useState<Record<string, number>>({});
   const [fulfillment, setFulfillment] = useState<"pickup" | "delivery">("pickup");
+  const [paymentMethod, setPaymentMethod] = useState<"in-person" | "online">("in-person");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [paymentConfirmation, setPaymentConfirmation] = useState<PaymentConfirmation | null>(
+    null
+  );
+  const [cancelledNotice, setCancelledNotice] = useState(false);
 
   // Computed client-side only (depends on the current time) so the
   // server-rendered markup doesn't mismatch the browser's clock on hydration.
@@ -98,6 +117,38 @@ export default function OrderBuilder() {
     setOrderingStatus(getOrderingStatus());
     const interval = setInterval(() => setOrderingStatus(getOrderingStatus()), 60_000);
     return () => clearInterval(interval);
+  }, []);
+
+  // Picks up after a redirect back from Stripe Checkout (success or cancel)
+  // and confirms the payment server-side before showing a result.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const payment = params.get("payment");
+    if (!payment) return;
+
+    window.history.replaceState({}, "", "/order");
+
+    if (payment === "success") {
+      const sessionId = params.get("session_id");
+      if (!sessionId) return;
+      setStatus("confirming-payment");
+      fetch(`/api/checkout/confirm?session_id=${encodeURIComponent(sessionId)}`)
+        .then(async (res) => {
+          if (!res.ok) throw new Error("Payment could not be confirmed.");
+          return res.json();
+        })
+        .then((data) => {
+          setPaymentConfirmation({
+            itemsSummary: data.itemsSummary,
+            total: data.total,
+            fulfillment: data.fulfillment,
+          });
+          setStatus("payment-success");
+        })
+        .catch(() => setStatus("payment-error"));
+    } else if (payment === "cancelled") {
+      setCancelledNotice(true);
+    }
   }, []);
 
   // Reads the current quantity from `prev` inside the updater (not from the
@@ -133,6 +184,43 @@ export default function OrderBuilder() {
     const itemsSummary = cartLines
       .map((line) => `${line.qty}x ${line.name} ($${(line.qty * line.priceValue).toFixed(2)})`)
       .join("; ");
+
+    if (paymentMethod === "online") {
+      try {
+        const res = await fetch("/api/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            items: cartLines.map((line) => ({
+              name: line.name,
+              quantity: line.qty,
+              unitPriceCents: Math.round(line.priceValue * 100),
+            })),
+            customerEmail: formData.get("email"),
+            name: formData.get("name"),
+            phone: formData.get("phone") || undefined,
+            fulfillment: fulfillment === "pickup" ? "Pickup" : "Delivery",
+            notes: formData.get("notes") || undefined,
+          }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => null);
+          setErrorMessage(
+            data?.error ?? "Something went wrong starting checkout. Please try again."
+          );
+          setStatus("error");
+          return;
+        }
+
+        const { url } = await res.json();
+        window.location.href = url;
+      } catch {
+        setErrorMessage("Something went wrong starting checkout. Please try again.");
+        setStatus("error");
+      }
+      return;
+    }
 
     try {
       const res = await fetch("/api/contact", {
@@ -184,6 +272,48 @@ export default function OrderBuilder() {
     );
   }
 
+  if (status === "confirming-payment") {
+    return (
+      <div className="rounded-sm border border-gold/30 bg-charcoal/60 px-6 py-10 text-center">
+        <p className="font-display text-xl text-gold-bright">Confirming your payment...</p>
+        <p className="mt-2 font-sans text-sm text-parchment">One moment.</p>
+      </div>
+    );
+  }
+
+  if (status === "payment-success" && paymentConfirmation) {
+    return (
+      <div className="rounded-sm border border-gold/30 bg-charcoal/60 px-6 py-10 text-center">
+        <p className="font-display text-xl text-gold-bright">Payment received. Thank you!</p>
+        <p className="mt-3 font-sans text-sm text-parchment">
+          {paymentConfirmation.itemsSummary}
+        </p>
+        <p className="mt-2 font-sans text-sm text-cream">
+          Total charged: {paymentConfirmation.total}
+        </p>
+        <p className="mt-4 font-sans text-sm text-parchment">
+          We&rsquo;ll get started on your {paymentConfirmation.fulfillment.toLowerCase()} order.
+        </p>
+      </div>
+    );
+  }
+
+  if (status === "payment-error") {
+    return (
+      <div className="rounded-sm border border-gold/30 bg-charcoal/60 px-6 py-10 text-center">
+        <p className="font-display text-xl text-gold-bright">
+          We couldn&rsquo;t confirm your payment.
+        </p>
+        <p className="mt-2 font-sans text-sm text-parchment">
+          If you were charged, please call us and we&rsquo;ll sort it out right away.
+        </p>
+        <div className="mt-3 font-sans text-sm text-parchment">
+          Call us: <PhoneLinks className="inline text-gold-bright" />
+        </div>
+      </div>
+    );
+  }
+
   if (orderingStatus && !orderingStatus.open) {
     return (
       <div className="rounded-sm border border-gold/30 bg-charcoal/60 px-6 py-10 text-center">
@@ -219,6 +349,12 @@ export default function OrderBuilder() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-16">
+      {cancelledNotice && (
+        <div className="rounded-sm border border-gold/25 bg-charcoal/50 px-6 py-4 text-center font-sans text-sm text-parchment">
+          Payment cancelled — no charge was made. Your cart is still below.
+        </div>
+      )}
+
       <div className="flex flex-col gap-14">
         {categories.map((category) => (
           <div key={category.id}>
@@ -305,8 +441,9 @@ export default function OrderBuilder() {
               <span className="tabular-nums">${total.toFixed(2)}</span>
             </div>
             <p className="mt-2 font-sans text-xs text-parchment/50">
-              Estimate only, tax not included. Payment is collected at
-              pickup or delivery.
+              {paymentMethod === "online"
+                ? "Tax not included. You'll be redirected to Stripe's secure checkout to complete payment."
+                : "Estimate only, tax not included. Payment is collected at pickup or delivery."}
             </p>
 
             <div className="mt-8 space-y-6">
@@ -325,6 +462,26 @@ export default function OrderBuilder() {
                       }`}
                     >
                       {option === "pickup" ? "Pickup" : "Delivery"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <span className={labelClasses}>How Would You Like to Pay?</span>
+                <div className="flex flex-wrap gap-3">
+                  {(["in-person", "online"] as const).map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setPaymentMethod(option)}
+                      className={`rounded-full border px-5 py-2 font-sans text-xs uppercase tracking-[0.18em] transition-colors ${
+                        paymentMethod === option
+                          ? "border-gold bg-gold text-ink"
+                          : "border-gold/40 text-gold-bright hover:border-gold"
+                      }`}
+                    >
+                      {option === "online" ? "Pay Online Now" : "Pay at Pickup/Delivery"}
                     </button>
                   ))}
                 </div>
@@ -381,8 +538,12 @@ export default function OrderBuilder() {
                 className="w-full rounded-full bg-gold px-8 py-3 font-sans text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:bg-gold-bright disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
               >
                 {status === "submitting"
-                  ? "Sending..."
-                  : `Submit Order (${itemCount} item${itemCount === 1 ? "" : "s"})`}
+                  ? paymentMethod === "online"
+                    ? "Redirecting to payment..."
+                    : "Sending..."
+                  : paymentMethod === "online"
+                    ? `Pay $${total.toFixed(2)} Now`
+                    : `Submit Order (${itemCount} item${itemCount === 1 ? "" : "s"})`}
               </button>
             </div>
           </>
