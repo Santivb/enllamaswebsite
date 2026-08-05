@@ -37,18 +37,19 @@ export const businessConfig = {
   // pipeline in src/lib/services/email.ts.
   email: "Guacmex100@gmail.com" as string | null,
 
-  // Carried over from the same location's previous listing (Guacamole
-  // Mexican Grill) — reconfirm before launch, hours may change under the
-  // new brand.
   hours: [
-    { day: "Monday", time: "11:00 AM – 9:00 PM" },
-    { day: "Tuesday", time: "11:00 AM – 9:00 PM" },
+    { day: "Monday", time: "6:00 AM – 9:00 PM" },
+    { day: "Tuesday", time: "6:00 AM – 9:00 PM" },
     { day: "Wednesday", time: "Closed" },
-    { day: "Thursday", time: "11:00 AM – 9:00 PM" },
-    { day: "Friday", time: "11:00 AM – 10:00 PM" },
-    { day: "Saturday", time: "11:00 AM – 10:00 PM" },
-    { day: "Sunday", time: "12:00 PM – 8:00 PM" },
+    { day: "Thursday", time: "6:00 AM – 9:00 PM" },
+    { day: "Friday", time: "6:00 AM – 10:00 PM" },
+    { day: "Saturday", time: "6:00 AM – 10:00 PM" },
+    { day: "Sunday", time: "6:00 AM – 8:00 PM" },
   ] as { day: string; time: string }[],
+
+  // Online orders stop being accepted this many minutes before closing time,
+  // so the kitchen isn't left scrambling to fill an order right at close.
+  orderCutoffMinutesBeforeClose: 10,
 
   // Days/hours delivery actually runs — narrower than the hours above.
   // Same provenance note as `hours`: carried over, reconfirm before launch.

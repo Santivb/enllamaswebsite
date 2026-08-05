@@ -1,7 +1,9 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { menuCategories } from "@/lib/menu-data";
+import { getOrderingStatus, type OrderingStatus } from "@/lib/order-hours";
+import PhoneLinks from "./PhoneLinks";
 
 type OrderableItem = {
   id: string;
@@ -89,6 +91,15 @@ export default function OrderBuilder() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Computed client-side only (depends on the current time) so the
+  // server-rendered markup doesn't mismatch the browser's clock on hydration.
+  const [orderingStatus, setOrderingStatus] = useState<OrderingStatus | null>(null);
+  useEffect(() => {
+    setOrderingStatus(getOrderingStatus());
+    const interval = setInterval(() => setOrderingStatus(getOrderingStatus()), 60_000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Reads the current quantity from `prev` inside the updater (not from the
   // outer `cart` closure) so two rapid clicks on the same button both land —
   // otherwise both onClick handlers would compute their target from the same
@@ -169,6 +180,26 @@ export default function OrderBuilder() {
           We&rsquo;ll confirm timing with you shortly. Payment is collected at
           pickup or delivery.
         </p>
+      </div>
+    );
+  }
+
+  if (orderingStatus && !orderingStatus.open) {
+    return (
+      <div className="rounded-sm border border-gold/30 bg-charcoal/60 px-6 py-10 text-center">
+        <p className="font-display text-xl text-gold-bright">
+          {orderingStatus.reason === "closing-soon"
+            ? "Online ordering has closed for tonight."
+            : "We're closed right now."}
+        </p>
+        <p className="mt-2 font-sans text-sm text-parchment">
+          {orderingStatus.reason === "closing-soon"
+            ? `We stop taking online orders shortly before we close at ${orderingStatus.closesAt}.`
+            : "Check our hours above, or call ahead and we'll do our best to help."}
+        </p>
+        <div className="mt-3 font-sans text-sm text-parchment">
+          Call us: <PhoneLinks className="inline text-gold-bright" />
+        </div>
       </div>
     );
   }
