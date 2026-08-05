@@ -19,6 +19,48 @@ const KITCHEN_PHOTOS = [
   { src: "/assets/food/gallery/taco-salad.jpg", alt: "Taco salad bowl with guacamole, corn and black beans", width: 1200, height: 801 },
   { src: "/assets/food/gallery/sides.jpg", alt: "Rice, beans and sides in white bowls", width: 1200, height: 800 },
   { src: "/assets/food/gallery/steak-shrimp-combo.jpg", alt: "Steak and shrimp in a savory house sauce", width: 1200, height: 1799 },
+  { src: "/assets/food/gallery/steak-shrimp-cobb-salad.jpg", alt: "Steak and shrimp salad bowl with pico de gallo and cucumber", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/carne-asada-bowl.jpg", alt: "Carne asada bowl with rice, cheese and pico de gallo", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/chicken-quesadillas-tray.jpg", alt: "Tray of grilled chicken quesadillas", width: 1024, height: 768 },
+  { src: "/assets/food/gallery/empanadas-guacamole.jpg", alt: "Fried empanadas served with guacamole", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/empanadas-plate.jpg", alt: "Empanadas with house salsas", width: 473, height: 450 },
+  { src: "/assets/food/gallery/desayuno-tipico.jpg", alt: "Traditional Latin breakfast plate with eggs, plantains, avocado and rice", width: 678, height: 452 },
+  { src: "/assets/food/gallery/shrimp-tostada-bowl.jpg", alt: "Crispy tostada bowl topped with chorizo, guacamole and pico de gallo", width: 1200, height: 1600 },
+  { src: "/assets/food/gallery/chicken-enchiladas-plate.jpg", alt: "Chicken enchiladas plate with rice, beans and salsa verde", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/queso-fundido-stack.jpg", alt: "Stack of melted-cheese quesadillas on a clay plate", width: 1024, height: 680 },
+  { src: "/assets/food/gallery/chorizo-tacos-plate.jpg", alt: "Chorizo tacos topped with guacamole and pico de gallo", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/catering-tray-parrillada.jpg", alt: "Catering tray of grilled parrillada with plantains and potatoes", width: 576, height: 1024 },
+];
+
+const KITCHEN_VIDEOS = [
+  {
+    src: "/assets/video/catering-tacos-pico.mp4",
+    poster: "/assets/video/catering-tacos-pico.jpg",
+    width: 1024,
+    height: 576,
+    label: "Fresh tacos, tray-ready",
+  },
+  {
+    src: "/assets/video/catering-saucy-wings.mp4",
+    poster: "/assets/video/catering-saucy-wings.jpg",
+    width: 1024,
+    height: 576,
+    label: "Off the grill",
+  },
+  {
+    src: "/assets/video/catering-shrimp-tacos.mp4",
+    poster: "/assets/video/catering-shrimp-tacos.jpg",
+    width: 576,
+    height: 1024,
+    label: "Shrimp tacos, plated for pickup",
+  },
+  {
+    src: "/assets/video/catering-yellow-rice.mp4",
+    poster: "/assets/video/catering-yellow-rice.jpg",
+    width: 576,
+    height: 1024,
+    label: "A full tray, ready to go",
+  },
 ];
 
 export default function GalleryPage() {
@@ -48,6 +90,37 @@ export default function GalleryPage() {
                   className="h-auto w-full"
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                 />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Catering in motion */}
+      <section className="relative bg-ink pb-24">
+        <div className="mx-auto max-w-6xl px-6 md:px-10">
+          <h2 className="section-heading text-xl md:text-2xl">Catering in Motion</h2>
+          <div className="mt-8 columns-2 gap-4 md:columns-4">
+            {KITCHEN_VIDEOS.map((video) => (
+              <div
+                key={video.src}
+                className="group relative mb-4 break-inside-avoid overflow-hidden rounded-sm border border-line"
+              >
+                <video
+                  src={video.src}
+                  poster={video.poster}
+                  width={video.width}
+                  height={video.height}
+                  className="h-auto w-full"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                />
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent px-3 pb-2 pt-6 font-sans text-[11px] uppercase tracking-[0.15em] text-parchment">
+                  {video.label}
+                </span>
               </div>
             ))}
           </div>
