@@ -76,8 +76,7 @@ export default function Footer() {
               Follow Our Journey
             </h3>
             <p className="mt-4 font-sans text-xs text-parchment/50">
-              {/* TODO: add real handles in src/config/business.ts */}
-              Official channels coming soon.
+              Find us on Instagram and Facebook.
             </p>
             <SocialIcons className="mt-4" iconClassName="h-[18px] w-[18px]" />
           </div>

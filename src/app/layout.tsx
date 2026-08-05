@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     template: "%s | En Llamas 87",
   },
   description:
-    "En Llamas 87 — Amantes de la Parrilla. A modern Latin American grill in Franklin Square, NY, built around the open flame: asados, tacos, parrillada and handcrafted Latin classics.",
+    "En Llamas 87: Amantes de la Parrilla. A modern Latin American grill in Franklin Square, NY, built around the open flame: asados, tacos, parrillada and handcrafted Latin classics.",
   keywords: [
     "En Llamas 87",
     "Franklin Square restaurant",
@@ -65,13 +65,13 @@ export const metadata: Metadata = {
     siteName: "En Llamas 87",
     title: "En Llamas 87 | Modern Latin American Grill in Franklin Square, NY",
     description:
-      "Amantes de la Parrilla. A modern Latin American grill built around the open flame — asados, tacos, parrillada and handcrafted Latin classics in Franklin Square, NY.",
+      "Amantes de la Parrilla. A modern Latin American grill built around the open flame: asados, tacos, parrillada and handcrafted Latin classics in Franklin Square, NY.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "En Llamas 87" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "En Llamas 87 | Modern Latin American Grill",
-    description: "Amantes de la Parrilla — Franklin Square, NY.",
+    description: "Amantes de la Parrilla. Franklin Square, NY.",
     images: ["/og-image.jpg"],
   },
   icons: {

@@ -78,8 +78,8 @@ export default function VisitSection() {
                 Need more of what&rsquo;s on the menu?{" "}
                 <a href="/bulk-orders" className="text-gold-bright hover:underline">
                   Request a quote
-                </a>{" "}
-                — 1 week notice preferred.
+                </a>
+                . 1 week notice preferred.
               </p>
             </div>
           </div>

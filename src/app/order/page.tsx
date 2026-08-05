@@ -11,7 +11,7 @@ import { businessConfig } from "@/config/business";
 export const metadata: Metadata = {
   title: "Order Online",
   description:
-    "Pickup, delivery, and catering from En Llamas 87 — a modern Latin American grill in Franklin Square, NY.",
+    "Pickup, delivery, and catering from En Llamas 87, a modern Latin American grill in Franklin Square, NY.",
 };
 
 export default function OrderPage() {
@@ -20,7 +20,7 @@ export default function OrderPage() {
       <PageHeader
         kicker="Bring the Fire Home"
         title="Order Online"
-        description="However you're gathering, En Llamas 87 travels well. Pickup, delivery, and full catering — all built around the same open-flame menu you'd get in the dining room."
+        description="However you're gathering, En Llamas 87 travels well. Pickup, delivery, and full catering, all built around the same open-flame menu you'd get in the dining room."
       />
 
       <section className="relative bg-ink pb-24">
@@ -29,7 +29,7 @@ export default function OrderPage() {
           <div className="flex flex-col rounded-sm border border-line bg-charcoal/50 p-8">
             <h2 className="font-display text-2xl text-cream">Pickup</h2>
             <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-parchment">
-              Order ahead and skip the wait — your food will be ready and
+              Order ahead and skip the wait. Your food will be ready and
               fresh off the grill when you arrive.
             </p>
             <p className="mt-6 font-sans text-xs text-parchment/70">
@@ -77,7 +77,7 @@ export default function OrderPage() {
             <h2 className="font-display text-2xl text-cream">Catering</h2>
             <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-parchment">
               Feeding a crowd? Our parrillada and picada platters were made
-              for the table — and for the office party, the backyard
+              for the table, and for the office party, the backyard
               gathering, or the milestone celebration.
             </p>
             <Link
@@ -99,7 +99,7 @@ export default function OrderPage() {
             </h2>
             <p className="mt-4 font-sans text-sm leading-relaxed text-parchment md:text-base">
               Add items from the menu, then choose pickup or delivery.
-              Payment is collected when your order arrives — no card needed
+              Payment is collected when your order arrives. No card needed
               online.
             </p>
           </div>

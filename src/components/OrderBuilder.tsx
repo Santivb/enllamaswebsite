@@ -274,7 +274,7 @@ export default function OrderBuilder() {
               <span className="tabular-nums">${total.toFixed(2)}</span>
             </div>
             <p className="mt-2 font-sans text-xs text-parchment/50">
-              Estimate only — tax not included. Payment is collected at
+              Estimate only, tax not included. Payment is collected at
               pickup or delivery.
             </p>
 
@@ -351,7 +351,7 @@ export default function OrderBuilder() {
               >
                 {status === "submitting"
                   ? "Sending..."
-                  : `Submit Order — ${itemCount} item${itemCount === 1 ? "" : "s"}`}
+                  : `Submit Order (${itemCount} item${itemCount === 1 ? "" : "s"})`}
               </button>
             </div>
           </>

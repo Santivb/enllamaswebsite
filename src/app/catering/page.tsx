@@ -7,7 +7,7 @@ import CateringForm from "@/components/CateringForm";
 export const metadata: Metadata = {
   title: "Catering",
   description:
-    "Full-flame catering from En Llamas 87 — parrillada and picada platters for your next gathering in Franklin Square, NY.",
+    "Full-flame catering from En Llamas 87. Parrillada and picada platters for your next gathering in Franklin Square, NY.",
 };
 
 export default function CateringPage() {
@@ -24,7 +24,7 @@ export default function CateringPage() {
           <div className="relative overflow-hidden rounded-sm border border-line">
             <Image
               src="/assets/food/parrillada.jpg"
-              alt="Parrillada platter from En Llamas 87 — mixed grilled meats, sausages, grilled vegetables, salsas, and warm tortillas"
+              alt="Parrillada platter from En Llamas 87: mixed grilled meats, sausages, grilled vegetables, salsas, and warm tortillas"
               width={1800}
               height={1285}
               className="h-auto w-full object-cover"
@@ -33,7 +33,7 @@ export default function CateringPage() {
             />
           </div>
           <p className="mt-4 text-center font-script text-lg italic text-gold-bright md:text-xl">
-            Our parrillada — built for the table, sized for a crowd.
+            Our parrillada, built for the table, sized for a crowd.
           </p>
         </div>
       </section>
@@ -52,8 +52,8 @@ export default function CateringPage() {
             </h2>
             <p className="mx-auto mt-3 max-w-md font-sans text-sm leading-relaxed text-parchment">
               For more of what&rsquo;s already on the menu, without the full
-              catering setup — think a stack of tacos or a few trays of
-              parrillada — request a bulk order instead. A week or more
+              catering setup (think a stack of tacos or a few trays of
+              parrillada), request a bulk order instead. A week or more
               notice is preferred.
             </p>
             <Link

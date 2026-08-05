@@ -36,7 +36,7 @@ export default function GallerySection() {
     <section ref={sectionRef} className="relative bg-ink py-28 md:py-36">
       <div className="mx-auto max-w-6xl px-6 md:px-10">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="section-kicker text-lg md:text-xl">Off the Grill</p>
+          <p className="section-kicker text-lg md:text-xl">Fan Favorites</p>
           <h2 className="mt-3 font-display text-4xl font-bold tracking-tight text-cream md:text-5xl">
             Signature Dishes
           </h2>

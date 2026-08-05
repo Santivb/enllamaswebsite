@@ -27,7 +27,7 @@ export default function GalleryPage() {
       <PageHeader
         kicker="Follow the Fire"
         title="Gallery"
-        description="A look at life around the grill — real plates, straight off the flame. Our social feeds are just getting started."
+        description="A look at life around the grill: real plates, fresh from the kitchen. Our social feeds are just getting started."
       />
 
       {/* From the Kitchen */}

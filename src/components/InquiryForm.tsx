@@ -79,7 +79,7 @@ export default function InquiryForm({
       <div className="rounded-sm border border-gold/30 bg-charcoal/60 px-6 py-10 text-center">
         <p className="font-display text-xl text-gold-bright">Thank you.</p>
         <p className="mt-2 font-sans text-sm text-parchment">
-          Your message has been sent — we&rsquo;ll be in touch soon.
+          Your message has been sent. We&rsquo;ll be in touch soon.
         </p>
       </div>
     );

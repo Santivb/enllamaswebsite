@@ -72,7 +72,7 @@ export const drinkCategories: DrinkCategory[] = [
   {
     id: "cocktails",
     title: "Cocktails",
-    note: "Flavors: mango, pineapple, passionfruit, strawberry — also available virgin",
+    note: "Flavors: mango, pineapple, passionfruit, strawberry. Also available virgin.",
     items: [
       { name: "Margarita", description: "On the rocks or frozen" },
       { name: "Mojito" },

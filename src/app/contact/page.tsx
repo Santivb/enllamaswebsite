@@ -19,7 +19,7 @@ export default function ContactPage() {
       <PageHeader
         kicker="We'd Love to Hear From You"
         title="Contact"
-        description="Questions, feedback, or a special request — send us a note and we'll get back to you."
+        description="Questions, feedback, or a special request: send us a note and we'll get back to you."
       />
 
       <section className="relative bg-ink pb-28">
@@ -78,7 +78,7 @@ export default function ContactPage() {
                 Follow Along
               </h3>
               <p className="mt-2 font-sans text-sm text-parchment/70">
-                Official social channels coming soon.
+                Find us on Instagram and Facebook.
               </p>
               <SocialIcons className="mt-4" iconClassName="h-5 w-5" />
             </div>

@@ -1,8 +1,8 @@
 import type { SocialPlatform } from "@/lib/services/social";
 
-// Instagram and TikTok aren't live yet (no real handles) — only Facebook is
-// shown site-wide until those accounts exist. See businessConfig.social.
+// TikTok isn't live yet (no real handle) — see businessConfig.social.
 export const SOCIAL_PLATFORMS: { id: SocialPlatform; label: string }[] = [
+  { id: "instagram", label: "Instagram" },
   { id: "facebook", label: "Facebook" },
 ];
 

@@ -5,7 +5,7 @@ import BulkOrderForm from "@/components/BulkOrderForm";
 export const metadata: Metadata = {
   title: "Bulk Orders",
   description:
-    "Order a bigger quantity from the regular menu at En Llamas 87 in Franklin Square, NY — 1 week notice preferred.",
+    "Order a bigger quantity from the regular menu at En Llamas 87 in Franklin Square, NY. 1 week notice preferred.",
 };
 
 export default function BulkOrdersPage() {

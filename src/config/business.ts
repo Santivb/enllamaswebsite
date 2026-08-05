@@ -69,11 +69,9 @@ export const businessConfig = {
   ] as { id: string; label: string; minOrder: number; deliveryFee: number }[],
 
   social: {
-    // TODO: add the real handle/URL once each account exists. The icon
-    // still renders everywhere (nav, footer, floating bar, contact card)
-    // but links to "#" and is visually marked as not-yet-live until set.
-    instagram: null as string | null,
-    facebook: null as string | null,
+    instagram: "https://www.instagram.com/enllamasrestaurant/" as string | null,
+    facebook: "https://www.facebook.com/share/1amrVjTKsU/" as string | null,
+    // TODO: add the real handle/URL once a TikTok account exists.
     tiktok: null as string | null,
   },
 
@@ -91,7 +89,7 @@ export const businessConfig = {
   story: {
     heritageName: "Guacamole Mexican Grill",
     description:
-      "For years, this corner of Franklin Square was home to Guacamole Mexican Grill — a neighborhood spot where familiar faces gathered over familiar flavors. That spirit never left. It simply grew. Under the same roof and the same welcome, En Llamas 87 carries that legacy forward: a modern Latin American grill built around the open flame, honoring the dishes neighbors have loved for years while bringing new fire to the table.",
+      "For years, this corner of Franklin Square was home to Guacamole Mexican Grill, a neighborhood spot where familiar faces gathered over familiar flavors. That spirit never left. It simply grew. Under the same roof and the same welcome, En Llamas 87 carries that legacy forward: a modern Latin American grill built around the open flame, honoring the dishes neighbors have loved for years while bringing new fire to the table.",
   },
 
   // Matches the service area previously offered by Guacamole Mexican Grill.

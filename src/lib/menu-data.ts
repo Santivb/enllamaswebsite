@@ -201,7 +201,7 @@ export const featuredDishes: FeaturedDish[] = [
   },
   {
     name: "Homemade Guacamole",
-    description: "Made fresh in house, table-side ritual",
+    description: "Made fresh in house, served as a side",
     tag: "Tapas",
     image: "/assets/food/guacamole.jpg",
   },
