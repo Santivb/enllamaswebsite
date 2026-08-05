@@ -5,7 +5,7 @@ import {
   type InquiryType,
 } from "@/lib/services/email";
 
-const VALID_TYPES: InquiryType[] = ["general", "catering", "bulk-order"];
+const VALID_TYPES: InquiryType[] = ["general", "catering", "bulk-order", "order"];
 
 function isValidType(value: unknown): value is InquiryType {
   return typeof value === "string" && VALID_TYPES.includes(value as InquiryType);

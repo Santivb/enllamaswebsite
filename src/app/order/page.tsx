@@ -5,6 +5,7 @@ import AlcoholPolicyNotice from "@/components/AlcoholPolicyNotice";
 import DeliveryAppButton from "@/components/DeliveryAppButton";
 import DeliveryZones from "@/components/DeliveryZones";
 import HoursList from "@/components/HoursList";
+import OrderBuilder from "@/components/OrderBuilder";
 import { businessConfig } from "@/config/business";
 
 export const metadata: Metadata = {
@@ -31,25 +32,20 @@ export default function OrderPage() {
               Order ahead and skip the wait — your food will be ready and
               fresh off the grill when you arrive.
             </p>
-            <div className="mt-6 rounded-sm border border-gold/20 bg-ink/40 px-4 py-3 text-center">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-gold-bright">
-                Coming Soon
-              </p>
-              <p className="mt-1 font-sans text-xs text-parchment/70">
-                Online pickup ordering is on its way — call{" "}
-                <a href={businessConfig.phoneHref} className="text-gold-bright hover:underline">
-                  {businessConfig.phone}
-                </a>{" "}
-                or{" "}
-                <a
-                  href={businessConfig.phoneSecondaryHref}
-                  className="text-gold-bright hover:underline"
-                >
-                  {businessConfig.phoneSecondary}
-                </a>{" "}
-                to order ahead in the meantime.
-              </p>
-            </div>
+            <p className="mt-6 font-sans text-xs text-parchment/70">
+              Build your order below, or call{" "}
+              <a href={businessConfig.phoneHref} className="text-gold-bright hover:underline">
+                {businessConfig.phone}
+              </a>{" "}
+              or{" "}
+              <a
+                href={businessConfig.phoneSecondaryHref}
+                className="text-gold-bright hover:underline"
+              >
+                {businessConfig.phoneSecondary}
+              </a>
+              .
+            </p>
           </div>
 
           {/* Delivery */}
@@ -90,6 +86,26 @@ export default function OrderPage() {
             >
               Start a Catering Request
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative bg-ink pb-24">
+        <div className="mx-auto max-w-5xl px-6 md:px-10">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="section-kicker text-lg md:text-xl">Build Your Order</p>
+            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-cream md:text-4xl">
+              What Are You Craving?
+            </h2>
+            <p className="mt-4 font-sans text-sm leading-relaxed text-parchment md:text-base">
+              Add items from the menu, then choose pickup or delivery.
+              Payment is collected when your order arrives — no card needed
+              online.
+            </p>
+          </div>
+
+          <div className="mt-14">
+            <OrderBuilder />
           </div>
         </div>
       </section>

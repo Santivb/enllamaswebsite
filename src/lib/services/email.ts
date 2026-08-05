@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import { businessConfig } from "@/config/business";
 
-export type InquiryType = "general" | "catering" | "bulk-order";
+export type InquiryType = "general" | "catering" | "bulk-order" | "order";
 
 export type EmailInquiry = {
   type: InquiryType;
@@ -17,6 +17,7 @@ const INQUIRY_LABELS: Record<InquiryType, string> = {
   general: "General Contact",
   catering: "Special Order / Catering Request",
   "bulk-order": "Bulk Order",
+  order: "Online Order",
 };
 
 export class EmailNotConfiguredError extends Error {
