@@ -88,7 +88,7 @@ export const menuCategories: MenuCategory[] = [
   {
     id: "main-course",
     title: "Main Course",
-    note: "All main dishes come with choice of two sides",
+    note: "All main dishes come with rice and salad",
     items: [
       { name: "Fajitas", description: "Chicken. Steak, shrimp or combo +$3", price: "$25" },
       { name: "Enchiladas", description: "Chicken or cheese", price: "$25" },
@@ -115,8 +115,7 @@ export const menuCategories: MenuCategory[] = [
   },
   {
     id: "sides",
-    title: "Sides",
-    note: "Included free with Main Course, priced if ordered extra",
+    title: "Extra Sides",
     items: [
       { name: "Rice", price: "$6" },
       { name: "Beans", price: "$6" },
@@ -129,7 +128,7 @@ export const menuCategories: MenuCategory[] = [
   {
     id: "tacos",
     title: "Tacos",
-    note: "Onions, cilantro, pico de gallo, guacamole & salsa. Served in soft corn tortillas, with soft flour or hard corn also available",
+    note: "Onions, cilantro, guacamole & salsa. Served in soft corn tortillas, with soft flour or hard corn also available",
     variantGroups: [
       { items: ["Chicken", "Carnitas", "Chorizo", "Pastor", "Veggie"], price: "$5 each" },
       { items: ["Asada", "Shrimp", "Birria", "Octopus", "Fish"], price: "$6 each" },
@@ -225,7 +224,7 @@ export const featuredDishes: FeaturedDish[] = [
   },
   {
     name: "Tacos",
-    description: "Onions, cilantro, pico de gallo, guacamole & salsa",
+    description: "Onions, cilantro, guacamole & salsa",
     tag: "Tacos",
     image: "/assets/food/tacos.jpg",
   },
