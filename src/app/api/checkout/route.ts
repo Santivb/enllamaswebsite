@@ -71,7 +71,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "Online payment isn't set up yet — please choose pay at pickup/delivery.",
+            "Online ordering isn't set up yet — please call us to place your order.",
         },
         { status: 503 }
       );

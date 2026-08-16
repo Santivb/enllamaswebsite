@@ -85,9 +85,7 @@ const labelClasses = "mb-2 block text-[11px] uppercase tracking-[0.2em] text-gol
 type Status =
   | "idle"
   | "submitting"
-  | "success"
   | "error"
-  | "not-configured"
   | "confirming-payment"
   | "payment-success"
   | "payment-error";
@@ -102,7 +100,6 @@ export default function OrderBuilder() {
   const categories = useMemo(() => buildOrderableCategories(), []);
   const [cart, setCart] = useState<Record<string, number>>({});
   const [fulfillment, setFulfillment] = useState<"pickup" | "delivery">("pickup");
-  const [paymentMethod, setPaymentMethod] = useState<"in-person" | "online">("in-person");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [paymentConfirmation, setPaymentConfirmation] = useState<PaymentConfirmation | null>(
@@ -170,7 +167,6 @@ export default function OrderBuilder() {
     .filter((item) => cart[item.id] > 0)
     .map((item) => ({ ...item, qty: cart[item.id] }));
   const total = cartLines.reduce((sum, line) => sum + line.qty * line.priceValue, 0);
-  const itemCount = cartLines.reduce((sum, line) => sum + line.qty, 0);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -181,96 +177,40 @@ export default function OrderBuilder() {
     setStatus("submitting");
     setErrorMessage(null);
 
-    const itemsSummary = cartLines
-      .map((line) => `${line.qty}x ${line.name} ($${(line.qty * line.priceValue).toFixed(2)})`)
-      .join("; ");
-
-    if (paymentMethod === "online") {
-      try {
-        const res = await fetch("/api/checkout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            items: cartLines.map((line) => ({
-              name: line.name,
-              quantity: line.qty,
-              unitPriceCents: Math.round(line.priceValue * 100),
-            })),
-            customerEmail: formData.get("email"),
-            name: formData.get("name"),
-            phone: formData.get("phone") || undefined,
-            fulfillment: fulfillment === "pickup" ? "Pickup" : "Delivery",
-            notes: formData.get("notes") || undefined,
-          }),
-        });
-
-        if (!res.ok) {
-          const data = await res.json().catch(() => null);
-          setErrorMessage(
-            data?.error ?? "Something went wrong starting checkout. Please try again."
-          );
-          setStatus("error");
-          return;
-        }
-
-        const { url } = await res.json();
-        window.location.href = url;
-      } catch {
-        setErrorMessage("Something went wrong starting checkout. Please try again.");
-        setStatus("error");
-      }
-      return;
-    }
-
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          type: "order",
+          items: cartLines.map((line) => ({
+            name: line.name,
+            quantity: line.qty,
+            unitPriceCents: Math.round(line.priceValue * 100),
+          })),
+          customerEmail: formData.get("email"),
           name: formData.get("name"),
-          email: formData.get("email"),
           phone: formData.get("phone") || undefined,
-          message: formData.get("notes") || undefined,
-          details: {
-            Fulfillment: fulfillment === "pickup" ? "Pickup" : "Delivery",
-            Items: itemsSummary,
-            "Order Total (estimate, paid at pickup/delivery)": `$${total.toFixed(2)}`,
-          },
+          fulfillment: fulfillment === "pickup" ? "Pickup" : "Delivery",
+          notes: formData.get("notes") || undefined,
         }),
       });
 
-      if (res.status === 503) {
-        setStatus("not-configured");
-        return;
-      }
       if (!res.ok) {
         const data = await res.json().catch(() => null);
-        setErrorMessage(data?.error ?? "Something went wrong. Please try again.");
+        setErrorMessage(
+          data?.error ?? "Something went wrong starting checkout. Please try again."
+        );
         setStatus("error");
         return;
       }
 
-      setStatus("success");
-      setCart({});
-      form.reset();
+      const { url } = await res.json();
+      window.location.href = url;
     } catch {
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage("Something went wrong starting checkout. Please try again.");
       setStatus("error");
     }
   };
-
-  if (status === "success") {
-    return (
-      <div className="rounded-sm border border-gold/30 bg-charcoal/60 px-6 py-10 text-center">
-        <p className="font-display text-xl text-gold-bright">Order request sent.</p>
-        <p className="mt-2 font-sans text-sm text-parchment">
-          We&rsquo;ll confirm timing with you shortly. Payment is collected at
-          pickup or delivery.
-        </p>
-      </div>
-    );
-  }
 
   if (status === "confirming-payment") {
     return (
@@ -330,19 +270,6 @@ export default function OrderBuilder() {
         <div className="mt-3 font-sans text-sm text-parchment">
           Call us: <PhoneLinks className="inline text-gold-bright" />
         </div>
-      </div>
-    );
-  }
-
-  if (status === "not-configured") {
-    return (
-      <div className="rounded-sm border border-gold/30 bg-charcoal/60 px-6 py-10 text-center">
-        <p className="font-display text-xl text-gold-bright">
-          Online ordering isn&rsquo;t connected yet.
-        </p>
-        <p className="mt-2 font-sans text-sm text-parchment">
-          Please call the restaurant directly in the meantime.
-        </p>
       </div>
     );
   }
@@ -437,13 +364,13 @@ export default function OrderBuilder() {
               ))}
             </div>
             <div className="mt-4 flex items-center justify-between border-t border-line/60 pt-4 font-display text-lg text-gold-bright">
-              <span>Estimated Total</span>
+              <span>Total</span>
               <span className="tabular-nums">${total.toFixed(2)}</span>
             </div>
             <p className="mt-2 font-sans text-xs text-parchment/50">
-              {paymentMethod === "online"
-                ? "Tax not included. You'll be redirected to Stripe's secure checkout to complete payment."
-                : "Estimate only, tax not included. Payment is collected at pickup or delivery."}
+              Tax not included. Payment is required to place your order —
+              you&rsquo;ll be redirected to Stripe&rsquo;s secure checkout to
+              complete payment.
             </p>
 
             <div className="mt-8 space-y-6">
@@ -462,26 +389,6 @@ export default function OrderBuilder() {
                       }`}
                     >
                       {option === "pickup" ? "Pickup" : "Delivery"}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <span className={labelClasses}>How Would You Like to Pay?</span>
-                <div className="flex flex-wrap gap-3">
-                  {(["in-person", "online"] as const).map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => setPaymentMethod(option)}
-                      className={`rounded-full border px-5 py-2 font-sans text-xs uppercase tracking-[0.18em] transition-colors ${
-                        paymentMethod === option
-                          ? "border-gold bg-gold text-ink"
-                          : "border-gold/40 text-gold-bright hover:border-gold"
-                      }`}
-                    >
-                      {option === "online" ? "Pay Online Now" : "Pay at Pickup/Delivery"}
                     </button>
                   ))}
                 </div>
@@ -538,12 +445,8 @@ export default function OrderBuilder() {
                 className="w-full rounded-full bg-gold px-8 py-3 font-sans text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:bg-gold-bright disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
               >
                 {status === "submitting"
-                  ? paymentMethod === "online"
-                    ? "Redirecting to payment..."
-                    : "Sending..."
-                  : paymentMethod === "online"
-                    ? `Pay $${total.toFixed(2)} Now`
-                    : `Submit Order (${itemCount} item${itemCount === 1 ? "" : "s"})`}
+                  ? "Redirecting to payment..."
+                  : `Pay $${total.toFixed(2)} Now`}
               </button>
             </div>
           </>

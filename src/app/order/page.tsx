@@ -99,8 +99,8 @@ export default function OrderPage() {
             </h2>
             <p className="mt-4 font-sans text-sm leading-relaxed text-parchment md:text-base">
               Add items from the menu, then choose pickup or delivery.
-              Payment is collected when your order arrives. No card needed
-              online.
+              Payment is completed online through our secure checkout to
+              confirm your order.
             </p>
           </div>
 
