@@ -94,6 +94,7 @@ type PaymentConfirmation = {
   itemsSummary: string;
   total: string;
   fulfillment: string;
+  address?: string;
 };
 
 export default function OrderBuilder() {
@@ -139,6 +140,7 @@ export default function OrderBuilder() {
             itemsSummary: data.itemsSummary,
             total: data.total,
             fulfillment: data.fulfillment,
+            address: data.address || undefined,
           });
           setStatus("payment-success");
         })
@@ -191,6 +193,7 @@ export default function OrderBuilder() {
           name: formData.get("name"),
           phone: formData.get("phone") || undefined,
           fulfillment: fulfillment === "pickup" ? "Pickup" : "Delivery",
+          address: fulfillment === "delivery" ? formData.get("address") : undefined,
           notes: formData.get("notes") || undefined,
         }),
       });
@@ -234,6 +237,11 @@ export default function OrderBuilder() {
         <p className="mt-4 font-sans text-sm text-parchment">
           We&rsquo;ll get started on your {paymentConfirmation.fulfillment.toLowerCase()} order.
         </p>
+        {paymentConfirmation.address && (
+          <p className="mt-2 font-sans text-sm text-parchment">
+            Delivering to: {paymentConfirmation.address}
+          </p>
+        )}
       </div>
     );
   }
@@ -394,6 +402,21 @@ export default function OrderBuilder() {
                 </div>
               </div>
 
+              {fulfillment === "delivery" && (
+                <div>
+                  <label htmlFor="order-address" className={labelClasses}>
+                    Delivery Address
+                  </label>
+                  <input
+                    id="order-address"
+                    name="address"
+                    required
+                    placeholder="Street address, apt/unit, city, zip"
+                    className={inputClasses}
+                  />
+                </div>
+              )}
+
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
                   <label htmlFor="order-name" className={labelClasses}>
@@ -430,7 +453,7 @@ export default function OrderBuilder() {
                   id="order-notes"
                   name="notes"
                   rows={3}
-                  placeholder="Allergies, delivery address, anything we should know..."
+                  placeholder="Allergies, gate codes, anything we should know..."
                   className={`${inputClasses} resize-none`}
                 />
               </div>

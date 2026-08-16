@@ -36,6 +36,7 @@ export async function GET(request: Request) {
   const name = session.metadata?.name || "Guest";
   const phone = session.metadata?.phone || undefined;
   const fulfillment = session.metadata?.fulfillment || "Pickup";
+  const address = session.metadata?.address || undefined;
   const notes = session.metadata?.notes || undefined;
   const email = session.customer_details?.email || "";
 
@@ -50,6 +51,7 @@ export async function GET(request: Request) {
         message: notes || "(none provided)",
         details: {
           Fulfillment: fulfillment,
+          ...(address ? { "Delivery Address": address } : {}),
           Items: itemsSummary,
           "Order Total (paid online)": total,
           Payment: "Paid online via Stripe",
@@ -62,5 +64,5 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, name, itemsSummary, total, fulfillment });
+  return NextResponse.json({ ok: true, name, itemsSummary, total, fulfillment, address });
 }

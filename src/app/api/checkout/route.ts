@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { items, customerEmail, name, phone, fulfillment, notes } = body as Record<
+  const { items, customerEmail, name, phone, fulfillment, address, notes } = body as Record<
     string,
     unknown
   >;
@@ -30,6 +30,12 @@ export async function POST(request: Request) {
   }
   if (typeof fulfillment !== "string") {
     return NextResponse.json({ error: "Invalid fulfillment." }, { status: 400 });
+  }
+  if (fulfillment === "Delivery" && (typeof address !== "string" || address.trim().length < 5)) {
+    return NextResponse.json(
+      { error: "A delivery address is required." },
+      { status: 400 }
+    );
   }
   if (!Array.isArray(items) || items.length === 0) {
     return NextResponse.json({ error: "Your cart is empty." }, { status: 400 });
@@ -59,6 +65,7 @@ export async function POST(request: Request) {
         name,
         phone: typeof phone === "string" ? phone : undefined,
         fulfillment,
+        address: typeof address === "string" ? address : undefined,
         notes: typeof notes === "string" ? notes : undefined,
       },
       successUrl: `${origin}/order?payment=success&session_id={CHECKOUT_SESSION_ID}`,

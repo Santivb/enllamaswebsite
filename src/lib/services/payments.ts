@@ -10,6 +10,7 @@ export type CheckoutMetadata = {
   name: string;
   phone?: string;
   fulfillment: string;
+  address?: string;
   notes?: string;
 };
 
@@ -62,6 +63,7 @@ export async function createCheckoutSession(
       name: opts.metadata.name,
       phone: opts.metadata.phone ?? "",
       fulfillment: opts.metadata.fulfillment,
+      address: (opts.metadata.address ?? "").slice(0, 450),
       notes: (opts.metadata.notes ?? "").slice(0, 450),
     },
     success_url: opts.successUrl,
