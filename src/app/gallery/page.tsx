@@ -30,6 +30,13 @@ const KITCHEN_PHOTOS = [
   { src: "/assets/food/gallery/queso-fundido-stack.jpg", alt: "Stack of melted-cheese quesadillas on a clay plate", width: 1024, height: 680 },
   { src: "/assets/food/gallery/chorizo-tacos-plate.jpg", alt: "Chorizo tacos topped with guacamole and pico de gallo", width: 768, height: 1024 },
   { src: "/assets/food/gallery/catering-tray-parrillada.jpg", alt: "Catering tray of grilled parrillada with plantains and potatoes", width: 576, height: 1024 },
+  { src: "/assets/food/gallery/steak-quesadillas-plate.jpg", alt: "Grilled steak quesadillas with pico de gallo, sour cream and salsa", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/carne-tacos-guacamole.jpg", alt: "Carne asada street tacos topped with guacamole", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/grilled-chicken-rice-plate.jpg", alt: "Grilled chicken plate with rice, roasted potatoes and salad", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/burrito-on-grill.jpg", alt: "Burrito grilling with char marks", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/family-style-spread.jpg", alt: "Family-style table spread of parrillada, rice, salad and empanadas", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/margaritas-chips.jpg", alt: "Margaritas and tortilla chips with salsa at the table", width: 768, height: 1024 },
+  { src: "/assets/food/gallery/guest-parrillada-toast.jpg", alt: "A guest enjoying a parrillada platter and a cold beer", width: 768, height: 1024 },
 ];
 
 const KITCHEN_VIDEOS = [
@@ -60,6 +67,62 @@ const KITCHEN_VIDEOS = [
     width: 576,
     height: 1024,
     label: "A full tray, ready to go",
+  },
+  {
+    src: "/assets/video/catering-flame-grill.mp4",
+    poster: "/assets/video/catering-flame-grill.jpg",
+    width: 1024,
+    height: 576,
+    label: "Straight off the open flame",
+  },
+  {
+    src: "/assets/video/catering-parrillada-tray.mp4",
+    poster: "/assets/video/catering-parrillada-tray.jpg",
+    width: 1024,
+    height: 576,
+    label: "Parrillada tray, fresh off the grill",
+  },
+  {
+    src: "/assets/video/catering-cheese-griddle.mp4",
+    poster: "/assets/video/catering-cheese-griddle.jpg",
+    width: 1024,
+    height: 576,
+    label: "Cheese quesadilla on the griddle",
+  },
+  {
+    src: "/assets/video/catering-empanadas-frying.mp4",
+    poster: "/assets/video/catering-empanadas-frying.jpg",
+    width: 1024,
+    height: 576,
+    label: "Empanadas frying to order",
+  },
+  {
+    src: "/assets/video/catering-empanadas-plate.mp4",
+    poster: "/assets/video/catering-empanadas-plate.jpg",
+    width: 1024,
+    height: 576,
+    label: "Empanadas plated with guacamole",
+  },
+  {
+    src: "/assets/video/catering-steak-plantains.mp4",
+    poster: "/assets/video/catering-steak-plantains.jpg",
+    width: 1024,
+    height: 576,
+    label: "Steak and plantains, tray-ready",
+  },
+  {
+    src: "/assets/video/catering-fajita-toss.mp4",
+    poster: "/assets/video/catering-fajita-toss.jpg",
+    width: 576,
+    height: 1032,
+    label: "Chicken fajita, tossed and sizzling",
+  },
+  {
+    src: "/assets/video/catering-chicken-plate.mp4",
+    poster: "/assets/video/catering-chicken-plate.jpg",
+    width: 576,
+    height: 1024,
+    label: "Grilled chicken plate, ready to serve",
   },
 ];
 
