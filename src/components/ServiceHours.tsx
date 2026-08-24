@@ -30,10 +30,10 @@ export default function ServiceHours({ className = "" }: ServiceHoursProps) {
             <dl className="mt-1.5 space-y-1">
               {groupHours(service.rows).map((row) => (
                 <div key={row.label} className="flex items-baseline justify-between gap-4">
-                  <dt className="font-sans text-sm text-parchment/80">{row.label}</dt>
+                  <dt className="font-sans text-sm text-muted">{row.label}</dt>
                   <dd
                     className={`font-sans text-sm ${
-                      row.time === "Closed" ? "italic text-parchment/40" : "text-cream"
+                      row.time === "Closed" ? "italic text-subtle" : "text-cream"
                     }`}
                   >
                     {row.time}

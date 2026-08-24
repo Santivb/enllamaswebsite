@@ -16,6 +16,25 @@
   --color-flame-gold: #e8a227;
   --color-cream: #f2ead9;
   --color-parchment: #a89a89;
+
+  /* Quieter steps of the same parchment tone — identical hue (33deg) and
+     saturation (15%), varying only in lightness, so de-emphasis reads as one
+     material rather than as a different colour. Both were solved for contrast
+     rather than picked by eye, and both clear WCAG AA (4.5:1) against every
+     surface text actually sits on: the page (--color-ink), cards
+     (--color-charcoal at full, /50 and /60) — worst case 4.64:1. The one
+     exception is --color-espresso, where `subtle` would drop to 4.11:1; it is
+     currently unused as a background, so if that changes, use `muted` (5.14:1)
+     there. Never dim text with an opacity modifier instead:
+     text-parchment/40 lands at 2.02:1 on ink, which is why the placeholders
+     and the "Closed" hour rows were previously illegible.
+
+       cream      16.85 on ink / 15.47 on charcoal   primary
+       parchment   7.35 / 6.74                       secondary
+       muted       6.32 / 5.80                       supporting copy
+       subtle      5.06 / 4.64                       quietest legible step */
+  --color-muted: #9d8e7a;
+  --color-subtle: #8d7d68;
   --color-line: rgba(200, 154, 75, 0.22);
 
   --background: var(--color-ink);
@@ -35,6 +54,8 @@
   --color-flame-gold: var(--color-flame-gold);
   --color-cream: var(--color-cream);
   --color-parchment: var(--color-parchment);
+  --color-muted: var(--color-muted);
+  --color-subtle: var(--color-subtle);
   --color-line: var(--color-line);
   --color-background: var(--background);
   --color-foreground: var(--foreground);

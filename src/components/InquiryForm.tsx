@@ -17,7 +17,7 @@ type Props = {
 };
 
 const inputClasses =
-  "w-full rounded-sm border border-line bg-charcoal/60 px-4 py-3 font-sans text-sm text-cream placeholder:text-parchment/40 outline-none transition-colors focus:border-gold";
+  "w-full rounded-sm border border-line bg-charcoal/60 px-4 py-3 font-sans text-sm text-cream placeholder:text-subtle outline-none transition-colors focus:border-gold";
 
 const labelClasses =
   "mb-2 block text-[11px] uppercase tracking-[0.2em] text-gold";
@@ -126,7 +126,7 @@ export default function InquiryForm({
 
       <div>
         <label htmlFor="phone" className={labelClasses}>
-          Phone <span className="normal-case text-parchment/50">(optional)</span>
+          Phone <span className="normal-case text-subtle">(optional)</span>
         </label>
         <input id="phone" name="phone" type="tel" className={inputClasses} />
       </div>
@@ -134,7 +134,7 @@ export default function InquiryForm({
       <div>
         <label htmlFor="message" className={labelClasses}>
           {messageLabel}{" "}
-          <span className="normal-case text-parchment/50">(optional)</span>
+          <span className="normal-case text-subtle">(optional)</span>
         </label>
         <textarea
           id="message"

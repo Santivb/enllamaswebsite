@@ -74,7 +74,7 @@ export default function VisitSection() {
               <h3 className="text-xs uppercase tracking-[0.25em] text-gold">
                 Bulk Orders
               </h3>
-              <p className="mt-2 font-sans text-sm text-parchment/80">
+              <p className="mt-2 font-sans text-sm text-muted">
                 Need more of what&rsquo;s on the menu?{" "}
                 <a href="/bulk-orders" className="text-gold-bright hover:underline">
                   Request a quote

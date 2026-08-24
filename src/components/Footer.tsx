@@ -26,13 +26,13 @@ export default function Footer() {
             <p className="font-display text-lg tracking-[0.15em] text-cream">
               {siteConfig.displayName.toUpperCase()}
             </p>
-            <p className="mt-1 font-script text-sm italic text-parchment/70">
+            <p className="mt-1 font-script text-sm italic text-muted">
               {siteConfig.tagline}
             </p>
-            <p className="mt-4 font-sans text-xs leading-relaxed text-parchment/60">
+            <p className="mt-4 font-sans text-xs leading-relaxed text-muted">
               {siteConfig.address.full}
             </p>
-            <PhoneLinks className="mt-2 font-sans text-xs text-parchment/60" />
+            <PhoneLinks className="mt-2 font-sans text-xs text-muted" />
           </div>
 
           <div>
@@ -44,7 +44,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="font-sans text-sm text-parchment/80 transition-colors hover:text-gold-bright"
+                    className="font-sans text-sm text-muted transition-colors hover:text-gold-bright"
                   >
                     {link.label}
                   </a>
@@ -62,7 +62,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="font-sans text-sm text-parchment/80 transition-colors hover:text-gold-bright"
+                    className="font-sans text-sm text-muted transition-colors hover:text-gold-bright"
                   >
                     {link.label}
                   </a>
@@ -75,7 +75,7 @@ export default function Footer() {
             <h3 className="text-[11px] uppercase tracking-[0.25em] text-gold">
               Follow Our Journey
             </h3>
-            <p className="mt-4 font-sans text-xs text-parchment/50">
+            <p className="mt-4 font-sans text-xs text-muted">
               Find us on Instagram and Facebook.
             </p>
             <SocialIcons className="mt-4" iconClassName="h-[18px] w-[18px]" />
@@ -86,7 +86,7 @@ export default function Footer() {
       <div className="border-t border-line">
         <div className="mx-auto max-w-6xl px-6 py-6 md:px-10">
           <div className="flex flex-col items-center gap-3 rounded-sm border border-line px-5 py-4 sm:flex-row sm:justify-between">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-parchment/40">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-subtle">
               Payment Methods Accepted
             </p>
             <PaymentMethods />
@@ -96,10 +96,10 @@ export default function Footer() {
 
       <div className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-6 py-6 text-center md:flex-row md:justify-between md:px-10">
-          <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-parchment/40">
+          <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-subtle">
             &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
-          <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-parchment/30">
+          <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-subtle">
             Amantes de la Parrilla
           </p>
         </div>

@@ -35,7 +35,7 @@ export default function DeliveryAppButton({ app }: { app: DeliveryAppId }) {
   return (
     <div className="flex cursor-not-allowed items-center justify-between rounded-sm border border-line bg-charcoal/30 px-6 py-4 opacity-60">
       <span className="font-display text-lg text-cream">{label}</span>
-      <span className="text-[10px] uppercase tracking-[0.2em] text-parchment/60">
+      <span className="text-[10px] uppercase tracking-[0.2em] text-subtle">
         Coming Soon
       </span>
     </div>

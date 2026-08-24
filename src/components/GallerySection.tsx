@@ -64,7 +64,7 @@ export default function GallerySection() {
                 <h3 className="mt-2 font-display text-xl leading-snug text-cream md:text-2xl">
                   {dish.name}
                 </h3>
-                <p className="mt-1 font-sans text-xs text-parchment/80 md:text-sm">
+                <p className="mt-1 font-sans text-xs text-muted md:text-sm">
                   {dish.description}
                 </p>
               </div>

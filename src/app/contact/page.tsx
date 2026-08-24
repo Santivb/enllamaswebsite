@@ -77,7 +77,7 @@ export default function ContactPage() {
               <h3 className="text-xs uppercase tracking-[0.25em] text-gold">
                 Follow Along
               </h3>
-              <p className="mt-2 font-sans text-sm text-parchment/70">
+              <p className="mt-2 font-sans text-sm text-muted">
                 Find us on Instagram and Facebook.
               </p>
               <SocialIcons className="mt-4" iconClassName="h-5 w-5" />

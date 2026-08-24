@@ -79,7 +79,7 @@ function buildOrderableCategories(): OrderableCategory[] {
 }
 
 const inputClasses =
-  "w-full rounded-sm border border-line bg-charcoal/60 px-4 py-3 font-sans text-sm text-cream placeholder:text-parchment/40 outline-none transition-colors focus:border-gold";
+  "w-full rounded-sm border border-line bg-charcoal/60 px-4 py-3 font-sans text-sm text-cream placeholder:text-subtle outline-none transition-colors focus:border-gold";
 const labelClasses = "mb-2 block text-[11px] uppercase tracking-[0.2em] text-gold";
 
 type Status =
@@ -351,7 +351,7 @@ export default function OrderBuilder() {
         <h3 className="font-display text-xl text-cream">Your Order</h3>
 
         {cartLines.length === 0 ? (
-          <p className="mt-3 font-sans text-sm text-parchment/60 italic">
+          <p className="mt-3 font-sans text-sm text-muted italic">
             Add items from the menu above to get started.
           </p>
         ) : (
@@ -375,7 +375,7 @@ export default function OrderBuilder() {
               <span>Total</span>
               <span className="tabular-nums">${total.toFixed(2)}</span>
             </div>
-            <p className="mt-2 font-sans text-xs text-parchment/50">
+            <p className="mt-2 font-sans text-xs text-muted">
               Tax not included. Payment is required to place your order —
               you&rsquo;ll be redirected to Stripe&rsquo;s secure checkout to
               complete payment.
@@ -440,14 +440,14 @@ export default function OrderBuilder() {
 
               <div>
                 <label htmlFor="order-phone" className={labelClasses}>
-                  Phone <span className="normal-case text-parchment/50">(optional)</span>
+                  Phone <span className="normal-case text-subtle">(optional)</span>
                 </label>
                 <input id="order-phone" name="phone" type="tel" className={inputClasses} />
               </div>
 
               <div>
                 <label htmlFor="order-notes" className={labelClasses}>
-                  Notes <span className="normal-case text-parchment/50">(optional)</span>
+                  Notes <span className="normal-case text-subtle">(optional)</span>
                 </label>
                 <textarea
                   id="order-notes"

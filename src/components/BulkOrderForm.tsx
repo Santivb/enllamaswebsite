@@ -4,7 +4,7 @@ import { useState } from "react";
 import InquiryForm from "./InquiryForm";
 
 const inputClasses =
-  "w-full rounded-sm border border-line bg-charcoal/60 px-4 py-3 font-sans text-sm text-cream placeholder:text-parchment/40 outline-none transition-colors focus:border-gold";
+  "w-full rounded-sm border border-line bg-charcoal/60 px-4 py-3 font-sans text-sm text-cream placeholder:text-subtle outline-none transition-colors focus:border-gold";
 const labelClasses = "mb-2 block text-[11px] uppercase tracking-[0.2em] text-gold";
 
 export default function BulkOrderForm() {
@@ -46,7 +46,7 @@ export default function BulkOrderForm() {
               onChange={(e) => setNeededBy(e.target.value)}
               className={inputClasses}
             />
-            <p className="mt-2 font-sans text-xs italic text-parchment/50">
+            <p className="mt-2 font-sans text-xs italic text-muted">
               1 week notice preferred
             </p>
           </div>

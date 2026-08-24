@@ -32,7 +32,7 @@ export default function OrderPage() {
               Order ahead and skip the wait. Your food will be ready and
               fresh off the grill when you arrive.
             </p>
-            <p className="mt-6 font-sans text-xs text-parchment/70">
+            <p className="mt-6 font-sans text-xs text-muted">
               Build your order below, or call{" "}
               <a href={businessConfig.phoneHref} className="text-gold-bright hover:underline">
                 {businessConfig.phone}

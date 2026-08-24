@@ -192,7 +192,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero-scroll-cue absolute bottom-8 z-20 flex flex-col items-center gap-2 text-parchment/70">
+      <div className="hero-scroll-cue absolute bottom-8 z-20 flex flex-col items-center gap-2 text-subtle">
         <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
         <span className="h-10 w-px animate-pulse bg-gradient-to-b from-gold to-transparent" />
       </div>

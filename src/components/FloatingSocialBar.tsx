@@ -19,7 +19,7 @@ export default function FloatingSocialBar() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={p.label}
-            className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-parchment/70 backdrop-blur-md transition-all duration-300 hover:border-gold/50 hover:text-gold-bright hover:shadow-[0_0_16px_rgba(227,181,99,0.35)]"
+            className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-subtle backdrop-blur-md transition-all duration-300 hover:border-gold/50 hover:text-gold-bright hover:shadow-[0_0_16px_rgba(227,181,99,0.35)]"
           >
             <PlatformIcon id={p.id} className="h-4 w-4" />
           </a>

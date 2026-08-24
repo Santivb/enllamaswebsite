@@ -12,7 +12,7 @@ export default function DeliveryZones({ className = "" }: { className?: string }
           <span className="whitespace-nowrap font-sans text-sm text-cream">
             {zone.label}
           </span>
-          <span className="whitespace-nowrap font-sans text-xs text-parchment/70">
+          <span className="whitespace-nowrap font-sans text-xs text-muted">
             ${zone.minOrder} min ·{" "}
             <span className="text-gold-bright">
               {zone.deliveryFee === 0 ? "Free delivery" : `$${zone.deliveryFee} fee`}

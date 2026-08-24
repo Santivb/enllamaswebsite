@@ -24,10 +24,10 @@ export default function HoursList({ variant = "dining", className = "" }: HoursL
     <dl className={`divide-y divide-line/60 ${className}`}>
       {rows.map((row) => (
         <div key={row.day} className="flex items-center justify-between py-2">
-          <dt className="font-sans text-sm text-parchment/80">{row.day}</dt>
+          <dt className="font-sans text-sm text-muted">{row.day}</dt>
           <dd
             className={`font-sans text-sm ${
-              row.time === "Closed" ? "italic text-parchment/40" : "text-cream"
+              row.time === "Closed" ? "italic text-subtle" : "text-cream"
             }`}
           >
             {row.time}
