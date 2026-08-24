@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { menuCategories } from "@/lib/menu-data";
 import { getOrderingStatus, type OrderingStatus } from "@/lib/order-hours";
 import PhoneLinks from "./PhoneLinks";
+import { scrollToElement } from "@/lib/smooth-scroll";
 
 type OrderableItem = {
   id: string;
@@ -81,6 +82,11 @@ function buildOrderableCategories(): OrderableCategory[] {
 const inputClasses =
   "w-full rounded-sm border border-line bg-charcoal/60 px-4 py-3 font-sans text-sm text-cream placeholder:text-subtle outline-none transition-colors focus:border-gold";
 const labelClasses = "mb-2 block text-[11px] uppercase tracking-[0.2em] text-gold";
+
+// Where a jumped-to heading comes to rest: clear of the fixed site header and
+// the sticky category bar underneath it. Kept in one place because the jump
+// handler, the scroll-margin fallback and the active-chip line all key off it.
+const JUMP_OFFSET = 176;
 
 type Status =
   | "idle"
@@ -169,6 +175,73 @@ export default function OrderBuilder() {
     .filter((item) => cart[item.id] > 0)
     .map((item) => ({ ...item, qty: cart[item.id] }));
   const total = cartLines.reduce((sum, line) => sum + line.qty * line.priceValue, 0);
+  const itemCount = cartLines.reduce((sum, line) => sum + line.qty, 0);
+  const hasCart = cartLines.length > 0;
+
+  // The floating social button sits at bottom-6 on small screens, exactly
+  // where the cart bar appears. Flagging it on <body> lets one CSS rule lift
+  // it out of the way without threading cart state through the layout.
+  useEffect(() => {
+    document.body.classList.toggle("has-cart-bar", hasCart);
+    return () => document.body.classList.remove("has-cart-bar");
+  }, [hasCart]);
+
+  // Tracks which category the reader is currently inside so the jump bar can
+  // mark it. Three deliberate choices:
+  //
+  // It samples scrollY on a timer rather than listening for scroll events,
+  // because the smooth-scroll library moves the page without emitting any —
+  // neither window nor a capturing listener on document sees a single event
+  // while scrollY changes underneath. A timer is also steadier than rAF here,
+  // which stops entirely whenever the tab is not being painted.
+  //
+  // It resolves to the last heading above the line rather than using an
+  // IntersectionObserver, because a category taller than the viewport leaves
+  // no heading intersecting at all, which would strand the marker on whichever
+  // one happened to cross last.
+  //
+  // And offsets are measured once instead of per sample, so scrolling never
+  // forces a layout just to keep a nav highlight in sync.
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  useEffect(() => {
+    let offsets: { id: string; top: number }[] = [];
+    const measure = () => {
+      offsets = categories
+        .map((category) => {
+          const el = document.getElementById(`category-${category.id}`);
+          return el
+            ? { id: category.id, top: el.getBoundingClientRect().top + window.scrollY }
+            : null;
+        })
+        .filter((o): o is { id: string; top: number } => o !== null);
+    };
+
+    let lastY = -1;
+    const sample = () => {
+      if (window.scrollY === lastY) return;
+      lastY = window.scrollY;
+      const line = lastY + JUMP_OFFSET + 24; // a hair below where a jump lands
+      let current: string | null = null;
+      for (const offset of offsets) {
+        if (offset.top <= line) current = offset.id;
+      }
+      setActiveCategory(current ?? offsets[0]?.id ?? null);
+    };
+
+    measure();
+    sample();
+    const timer = setInterval(sample, 100);
+    const onResize = () => {
+      measure();
+      lastY = -1; // force a recompute against the new offsets
+      sample();
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [categories]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -283,17 +356,51 @@ export default function OrderBuilder() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-16">
+    <>
+    <form onSubmit={handleSubmit} className={`space-y-16 ${hasCart ? "pb-28" : ""}`}>
       {cancelledNotice && (
         <div className="rounded-sm border border-gold/25 bg-charcoal/50 px-6 py-4 text-center font-sans text-sm text-parchment">
           Payment cancelled — no charge was made. Your cart is still below.
         </div>
       )}
 
+      {/* Twenty categories and 80-odd items: without a jump bar the only way to
+          reach the desserts is to scroll past everything else. Sticks below the
+          site header, scrolls horizontally on narrow screens. */}
+      <nav
+        aria-label="Menu categories"
+        className="sticky top-24 z-30 -mx-4 border-y border-line bg-ink/95 px-4 py-2 backdrop-blur-md md:-mx-6 md:px-6"
+      >
+        <ul className="flex gap-2 overflow-x-auto">
+          {categories.map((category) => (
+            <li key={category.id}>
+              <a
+                href={`#category-${category.id}`}
+                onClick={(e) => {
+                  const el = document.getElementById(`category-${category.id}`);
+                  if (!el) return; // let the browser handle it
+                  e.preventDefault();
+                  scrollToElement(el, JUMP_OFFSET);
+                }}
+                aria-current={activeCategory === category.id ? "true" : undefined}
+                className={`block whitespace-nowrap rounded-full border px-4 py-2 font-sans text-[11px] uppercase tracking-[0.15em] transition-colors ${
+                  activeCategory === category.id
+                    ? "border-gold bg-gold/15 text-gold-bright"
+                    : "border-line text-muted hover:border-gold/50 hover:text-gold-bright"
+                }`}
+              >
+                {category.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
       <div className="flex flex-col gap-14">
         {categories.map((category) => (
           <div key={category.id}>
-            <div className="flex items-center gap-4">
+            {/* scroll-mt clears the fixed header plus the jump bar above. */}
+            <div id={`category-${category.id}`} className="flex scroll-mt-44 items-center gap-4">
               <span className="divider-line flex-1" />
               <h3 className="section-heading whitespace-nowrap text-lg md:text-xl">
                 {category.title}
@@ -324,7 +431,7 @@ export default function OrderBuilder() {
                       type="button"
                       aria-label={`Remove one ${item.name}`}
                       onClick={() => adjustQty(item.id, -1)}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/40 font-sans text-gold-bright transition-colors hover:border-gold hover:bg-gold/10"
+                      className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/40 font-sans text-lg text-gold-bright transition-colors hover:border-gold hover:bg-gold/10"
                     >
                       &minus;
                     </button>
@@ -335,7 +442,7 @@ export default function OrderBuilder() {
                       type="button"
                       aria-label={`Add one ${item.name}`}
                       onClick={() => adjustQty(item.id, 1)}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/40 font-sans text-gold-bright transition-colors hover:border-gold hover:bg-gold/10"
+                      className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/40 font-sans text-lg text-gold-bright transition-colors hover:border-gold hover:bg-gold/10"
                     >
                       +
                     </button>
@@ -347,7 +454,10 @@ export default function OrderBuilder() {
         ))}
       </div>
 
-      <div className="rounded-sm border border-gold/25 bg-charcoal/50 p-6 md:p-8">
+      <div
+        id="order-summary"
+        className="scroll-mt-32 rounded-sm border border-gold/25 bg-charcoal/50 p-6 md:p-8"
+      >
         <h3 className="font-display text-xl text-cream">Your Order</h3>
 
         {cartLines.length === 0 ? (
@@ -476,5 +586,31 @@ export default function OrderBuilder() {
         )}
       </div>
     </form>
+
+    {/* Deliberately a sibling of the form, not a child: the form carries
+        space-y-16, which would hand this fixed element a 64px margin and push
+        it off the bottom of the viewport. Nothing in it submits, so it has no
+        reason to live inside the form anyway. */}
+    {hasCart && (
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gold/30 bg-ink/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 pr-24 md:px-10 lg:pr-10">
+          <div aria-live="polite">
+            <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-gold">
+              {itemCount} {itemCount === 1 ? "item" : "items"}
+            </p>
+            <p className="font-display text-lg tabular-nums text-cream">
+              ${total.toFixed(2)}
+            </p>
+          </div>
+          <a
+            href="#order-summary"
+            className="shrink-0 rounded-full bg-gold px-6 py-3.5 font-sans text-xs uppercase tracking-[0.2em] text-ink transition-colors hover:bg-gold-bright"
+          >
+            Review order
+          </a>
+        </div>
+      </div>
+    )}
+    </>
   );
 }

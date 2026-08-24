@@ -91,6 +91,13 @@ body {
   overflow-x: hidden;
 }
 
+/* OrderBuilder flags <body> while the fixed cart bar is up. The mobile social
+   button lives at bottom-6, right where that bar appears, so it steps up over
+   the bar instead of sitting on top of it. */
+body.has-cart-bar .social-fab {
+  bottom: 6.5rem;
+}
+
 ::selection {
   background: var(--color-flame-red);
   color: var(--color-cream);

@@ -28,7 +28,7 @@ export default function FloatingSocialBar() {
       </div>
 
       {/* Mobile: expandable floating action button */}
-      <div className="fixed bottom-6 right-6 z-30 flex flex-col items-center gap-3 lg:hidden">
+      <div className="social-fab fixed bottom-6 right-6 z-30 flex flex-col items-center gap-3 lg:hidden">
         <AnimatePresence>
           {open &&
             SOCIAL_PLATFORMS.map((p, i) => (
