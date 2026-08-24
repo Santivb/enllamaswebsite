@@ -1,14 +1,24 @@
 import { businessConfig } from "@/config/business";
 
 type HoursListProps = {
-  variant?: "dining" | "delivery";
+  variant?: "dining" | "delivery" | "breakfast" | "dinner";
   className?: string;
 };
 
-/** Renders either the regular dining-room hours or the (narrower) delivery hours. */
+const SOURCES = {
+  dining: businessConfig.hours,
+  delivery: businessConfig.deliveryHours,
+  breakfast: businessConfig.breakfastHours,
+  dinner: businessConfig.dinnerHours,
+};
+
+/**
+ * Renders one set of hours. "dining" is the doors-open window; "breakfast"
+ * and "dinner" are the two services that run inside it; "delivery" is the
+ * narrower window delivery actually runs.
+ */
 export default function HoursList({ variant = "dining", className = "" }: HoursListProps) {
-  const rows =
-    variant === "delivery" ? businessConfig.deliveryHours : businessConfig.hours;
+  const rows = SOURCES[variant];
 
   return (
     <dl className={`divide-y divide-line/60 ${className}`}>

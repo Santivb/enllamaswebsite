@@ -4,8 +4,17 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { revealOnScroll } from "@/lib/motion";
+import { businessConfig } from "@/config/business";
+import { groupHours } from "@/lib/hours";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// The counter runs on the deli/breakfast window, so read it straight from
+// the config instead of restating the times here.
+const COUNTER_HOURS = groupHours(businessConfig.breakfastHours)
+  .filter((row) => row.time !== "Closed")
+  .map((row) => `${row.label} · ${row.time}`)
+  .join("  ·  ");
 
 const FEATURES = [
   {
@@ -75,7 +84,7 @@ export default function OnsiteFoodSection() {
         </div>
 
         <p className="onsite-reveal mt-14 font-sans text-xs uppercase tracking-[0.25em] text-gold">
-          Onsite Counter &middot; 6:00 AM &ndash; 5:00 PM
+          Onsite Counter &middot; {COUNTER_HOURS}
         </p>
       </div>
     </section>

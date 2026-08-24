@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { siteConfig } from "@/lib/menu-data";
 import { revealOnScroll } from "@/lib/motion";
-import HoursList from "./HoursList";
+import ServiceHours from "./ServiceHours";
 import PhoneLinks from "./PhoneLinks";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -67,7 +67,7 @@ export default function VisitSection() {
               <h3 className="text-xs uppercase tracking-[0.25em] text-gold">
                 Hours
               </h3>
-              <HoursList className="mt-2 max-w-xs" />
+              <ServiceHours className="mt-2 max-w-xs" />
             </div>
 
             <div>

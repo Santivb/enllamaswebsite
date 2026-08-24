@@ -37,14 +37,44 @@ export const businessConfig = {
   // pipeline in src/lib/services/email.ts.
   email: "Guacmex100@gmail.com" as string | null,
 
+  // Doors-open hours — the outer window the building is open. The two
+  // services below each run on their own narrower window inside these:
+  // the deli/breakfast counter in the morning, the main/dinner menu from
+  // late morning on. Source: the restaurant's Google Business Profile.
   hours: [
     { day: "Monday", time: "6:00 AM – 9:00 PM" },
     { day: "Tuesday", time: "6:00 AM – 9:00 PM" },
-    { day: "Wednesday", time: "Closed" },
+    { day: "Wednesday", time: "6:00 AM – 9:00 PM" },
     { day: "Thursday", time: "6:00 AM – 9:00 PM" },
-    { day: "Friday", time: "6:00 AM – 10:00 PM" },
-    { day: "Saturday", time: "6:00 AM – 10:00 PM" },
-    { day: "Sunday", time: "6:00 AM – 8:00 PM" },
+    { day: "Friday", time: "6:00 AM – 11:00 PM" },
+    // No deli service on Saturday for now, so the doors open with the
+    // main menu at 11 instead of at 6.
+    { day: "Saturday", time: "11:00 AM – 11:00 PM" },
+    { day: "Sunday", time: "12:00 PM – 8:00 PM" },
+  ] as { day: string; time: string }[],
+
+  // Deli / breakfast counter ("Comida a la Vista"). Weekdays only for now —
+  // the owner wants to see how the restaurant does before adding weekends.
+  breakfastHours: [
+    { day: "Monday", time: "6:00 AM – 4:00 PM" },
+    { day: "Tuesday", time: "6:00 AM – 4:00 PM" },
+    { day: "Wednesday", time: "6:00 AM – 4:00 PM" },
+    { day: "Thursday", time: "6:00 AM – 4:00 PM" },
+    { day: "Friday", time: "6:00 AM – 4:00 PM" },
+    { day: "Saturday", time: "Closed" },
+    { day: "Sunday", time: "Closed" },
+  ] as { day: string; time: string }[],
+
+  // Main menu / dinner service. Runs every day, including Sunday when it is
+  // the only service on offer.
+  dinnerHours: [
+    { day: "Monday", time: "11:00 AM – 9:00 PM" },
+    { day: "Tuesday", time: "11:00 AM – 9:00 PM" },
+    { day: "Wednesday", time: "11:00 AM – 9:00 PM" },
+    { day: "Thursday", time: "11:00 AM – 9:00 PM" },
+    { day: "Friday", time: "11:00 AM – 11:00 PM" },
+    { day: "Saturday", time: "11:00 AM – 11:00 PM" },
+    { day: "Sunday", time: "12:00 PM – 8:00 PM" },
   ] as { day: string; time: string }[],
 
   // Online orders stop being accepted this many minutes before closing time,

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import InquiryForm from "@/components/InquiryForm";
 import SocialIcons from "@/components/SocialIcons";
-import HoursList from "@/components/HoursList";
+import ServiceHours from "@/components/ServiceHours";
 import PhoneLinks from "@/components/PhoneLinks";
 import { businessConfig } from "@/config/business";
 
@@ -70,7 +70,7 @@ export default function ContactPage() {
               <h3 className="text-xs uppercase tracking-[0.25em] text-gold">
                 Hours
               </h3>
-              <HoursList className="mt-2 max-w-sm" />
+              <ServiceHours className="mt-2 max-w-sm" />
             </div>
 
             <div className="rounded-sm border border-gold/25 bg-charcoal/50 p-6">
