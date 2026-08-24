@@ -63,7 +63,7 @@ export async function sendInquiryEmail(inquiry: EmailInquiry): Promise<void> {
     const resend = new Resend(resendKey);
     const { error } = await resend.emails.send({
       // TODO: verify a sending domain in Resend and use an address on it
-      // (e.g. "En Llamas 87 <inquiries@enllamas87.com>") instead of the
+      // (e.g. "En Llamas 87 <inquiries@enllamsrestaurant.com>") instead of the
       // shared onboarding sender.
       from: "En Llamas 87 Website <onboarding@resend.dev>",
       to,

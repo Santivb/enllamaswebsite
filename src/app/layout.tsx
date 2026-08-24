@@ -38,7 +38,7 @@ const bevan = Bevan({
   display: "swap",
 });
 
-const siteUrl = "https://enllamas87.com";
+const siteUrl = siteConfig.siteUrl;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

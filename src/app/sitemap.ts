@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { businessConfig } from "@/config/business";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://enllamas87.com";
+  const base = businessConfig.siteUrl;
   return [
     {
       url: base,

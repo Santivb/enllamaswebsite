@@ -20,6 +20,12 @@ export const businessConfig = {
   tagline: "Amantes de la Parrilla",
   taglineEn: "Lovers of the Grill",
 
+  // The live domain. Canonical URLs, Open Graph tags, the sitemap and
+  // robots.txt all build off this, so it must match what the site is
+  // actually served from — a stale value here points search engines and
+  // link previews at a domain that does not resolve.
+  siteUrl: "https://enllamsrestaurant.com",
+
   address: {
     line1: "885 Hempstead Tpke",
     line2: "Franklin Square, NY 11010",
