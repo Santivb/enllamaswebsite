@@ -112,7 +112,11 @@ export default function Hero() {
     <section
       id="top"
       ref={rootRef}
-      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-ink py-20"
+      // The scroll cue is absolutely positioned at bottom-8 and stands ~63px
+      // tall, so it reaches 95px up from the section floor. Bottom padding has
+      // to clear that zone or the cue lands on top of the CTA row at viewport
+      // heights around 800px.
+      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-ink pt-20 pb-32"
     >
       <div
         aria-hidden="true"
@@ -176,16 +180,28 @@ export default function Hero() {
           open flame.
         </p>
 
+        {/* Ordering is the only action here that takes money, so it holds the
+            single filled button; the menu keeps an outline and Visit drops to
+            a text link. One filled control means the hierarchy reads at a
+            glance instead of two equals competing. */}
         <div className="hero-cta mt-9 flex flex-col items-center gap-4 sm:flex-row md:mt-10">
           <a
+            href="/order"
+            className="rounded-full bg-gold px-8 py-3.5 font-sans text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:bg-gold-bright"
+          >
+            Order Online
+          </a>
+          <a
             href="/menu"
-            className="rounded-full bg-gold px-8 py-3 font-sans text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:bg-gold-bright"
+            className="rounded-full border border-cream/30 px-8 py-3.5 font-sans text-xs uppercase tracking-[0.25em] text-cream transition-colors hover:border-cream"
           >
             Explore the Menu
           </a>
           <a
             href="#visit"
-            className="rounded-full border border-cream/30 px-8 py-3 font-sans text-xs uppercase tracking-[0.25em] text-cream transition-colors hover:border-cream"
+            // py-3.5 is purely tap area — it keeps the link visually quiet while
+            // giving it a 44px target, the same minimum the two buttons meet.
+            className="px-2 py-3.5 font-sans text-xs uppercase tracking-[0.25em] text-muted underline-offset-8 transition-colors hover:text-gold-bright hover:underline sm:ml-1"
           >
             Visit Us
           </a>
