@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { featuredDishes } from "@/lib/menu-data";
+import { homepageDishes } from "@/lib/menu-data";
 import { revealOnScroll } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -43,7 +43,7 @@ export default function GallerySection() {
         </div>
 
         <div className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
-          {featuredDishes.map((dish) => (
+          {homepageDishes.map((dish) => (
             <div
               key={dish.name}
               className="dish-card group aspect-[4/5] rounded-sm"
@@ -64,7 +64,7 @@ export default function GallerySection() {
                 <h3 className="mt-2 font-display text-xl leading-snug text-cream md:text-2xl">
                   {dish.name}
                 </h3>
-                <p className="mt-1 font-sans text-xs text-muted md:text-sm">
+                <p className="mt-1 font-sans text-sm text-muted">
                   {dish.description}
                 </p>
               </div>

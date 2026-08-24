@@ -29,10 +29,10 @@ export default function Footer() {
             <p className="mt-1 font-script text-sm italic text-muted">
               {siteConfig.tagline}
             </p>
-            <p className="mt-4 font-sans text-xs leading-relaxed text-muted">
+            <p className="mt-4 font-sans text-sm leading-relaxed text-muted">
               {siteConfig.address.full}
             </p>
-            <PhoneLinks className="mt-2 font-sans text-xs text-muted" />
+            <PhoneLinks className="mt-2 font-sans text-sm text-muted" />
           </div>
 
           <div>
@@ -75,7 +75,7 @@ export default function Footer() {
             <h3 className="text-[11px] uppercase tracking-[0.25em] text-gold">
               Follow Our Journey
             </h3>
-            <p className="mt-4 font-sans text-xs text-muted">
+            <p className="mt-4 font-sans text-sm text-muted">
               Find us on Instagram and Facebook.
             </p>
             <SocialIcons className="mt-4" iconClassName="h-[18px] w-[18px]" />

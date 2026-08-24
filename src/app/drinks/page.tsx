@@ -51,7 +51,7 @@ export default function DrinksPage() {
                         )}
                       </div>
                       {item.description && (
-                        <p className="mt-1 font-sans text-sm text-gold/60">
+                        <p className="mt-1 font-sans text-sm text-muted">
                           {item.description}
                         </p>
                       )}

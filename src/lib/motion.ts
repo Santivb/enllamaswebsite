@@ -1,8 +1,35 @@
+import { useSyncExternalStore } from "react";
 import { gsap } from "gsap";
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 export function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+function subscribeToReducedMotion(onChange: () => void) {
+  const query = window.matchMedia(REDUCED_MOTION_QUERY);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
+/**
+ * Reactive version of the check above, for components that render differently
+ * under reduced motion.
+ *
+ * The server snapshot is `false` because there is no media query to read
+ * during SSR; hydration corrects it on the client. Reading it through
+ * useSyncExternalStore rather than an effect keeps the server and client
+ * markup in step without a setState-on-mount, and picks up the change if the
+ * visitor flips the setting while the page is open.
+ */
+export function useReducedMotion(): boolean {
+  return useSyncExternalStore(
+    subscribeToReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    () => false
+  );
 }
 
 /**

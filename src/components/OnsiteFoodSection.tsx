@@ -76,7 +76,7 @@ export default function OnsiteFoodSection() {
               <h3 className="font-display text-base text-gold-bright md:text-lg">
                 {feature.title}
               </h3>
-              <p className="mt-1 font-sans text-xs leading-relaxed text-muted md:text-sm">
+              <p className="mt-1 font-sans text-sm leading-relaxed text-muted">
                 {feature.description}
               </p>
             </div>

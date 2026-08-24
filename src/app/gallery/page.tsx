@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import PageHeader from "@/components/PageHeader";
+import GalleryVideo from "@/components/GalleryVideo";
 import { getSocialUrl } from "@/lib/services/social";
 
 export const metadata: Metadata = {
@@ -165,26 +166,7 @@ export default function GalleryPage() {
           <h2 className="section-heading text-xl md:text-2xl">Catering in Motion</h2>
           <div className="mt-8 columns-2 gap-4 md:columns-4">
             {KITCHEN_VIDEOS.map((video) => (
-              <div
-                key={video.src}
-                className="group relative mb-4 break-inside-avoid overflow-hidden rounded-sm border border-line"
-              >
-                <video
-                  src={video.src}
-                  poster={video.poster}
-                  width={video.width}
-                  height={video.height}
-                  className="h-auto w-full"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="none"
-                />
-                <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent px-3 pb-2 pt-6 font-sans text-[11px] uppercase tracking-[0.15em] text-parchment">
-                  {video.label}
-                </span>
-              </div>
+              <GalleryVideo key={video.src} {...video} />
             ))}
           </div>
         </div>

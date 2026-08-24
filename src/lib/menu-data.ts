@@ -266,6 +266,37 @@ export const featuredDishes: FeaturedDish[] = [
   },
 ];
 
+/**
+ * The subset shown under "Signature Dishes" on the homepage.
+ *
+ * All twelve used to appear there, which is not a recommendation — it is the
+ * menu again, and it leaves the visitor doing the same choosing they came to
+ * the homepage to avoid. Six is a spread rather than a list: the grill
+ * centrepiece, a main, a taco, a tapa, a shareable and a dessert. It also
+ * fills the 2-up and 3-up grids exactly, with no odd card left on its own.
+ *
+ * To change what the homepage pushes, edit these names — anything listed here
+ * must match a `name` in featuredDishes above.
+ */
+const HOMEPAGE_DISH_NAMES = [
+  "Parrillada",
+  "Fajitas",
+  "Tacos",
+  "Chicharrón",
+  "Nachos",
+  "Tres Leches Cake",
+];
+
+export const homepageDishes: FeaturedDish[] = HOMEPAGE_DISH_NAMES.map((name) => {
+  const dish = featuredDishes.find((d) => d.name === name);
+  if (!dish) {
+    throw new Error(
+      `HOMEPAGE_DISH_NAMES lists "${name}", which is not in featuredDishes.`
+    );
+  }
+  return dish;
+});
+
 // Re-exported for backward compatibility — the single source of truth for
 // all business info now lives in src/config/business.ts.
 export { businessConfig as siteConfig } from "@/config/business";

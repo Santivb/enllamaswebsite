@@ -73,7 +73,7 @@ export default function MenuSection() {
                         )}
                       </div>
                       {item.description && (
-                        <p className="mt-1 font-sans text-sm text-gold/60">
+                        <p className="mt-1 font-sans text-sm text-muted">
                           {item.description}
                         </p>
                       )}
@@ -93,7 +93,7 @@ export default function MenuSection() {
                         <span key={v}>
                           {v}
                           {i < group.items.length - 1 && (
-                            <span className="mx-3 text-gold/40">•</span>
+                            <span className="mx-3 text-subtle">•</span>
                           )}
                         </span>
                       ))}

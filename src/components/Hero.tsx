@@ -138,7 +138,12 @@ export default function Hero() {
       <div className="relative z-10 flex w-full max-w-full flex-col items-center px-6 text-center">
         {/* Logo stage: its own dedicated box, so the emblem is never fought
             over by the headline below — generous breathing room built in. */}
-        <div className="hero-emblem-stage relative h-[46vh] min-h-[340px] w-full max-w-[560px] sm:h-[56vh] md:h-[66vh] md:max-w-[640px]">
+        {/* The emblem already carries the "EN LLAMAS" wordmark, and the nav and
+            the headline below carry it twice more — so at its old size (66vh on
+            desktop) the brand name filled the first screen three times over and
+            pushed the line that says what the place actually is, plus both
+            calls to action, below the fold. */}
+        <div className="hero-emblem-stage relative h-[34vh] min-h-[240px] w-full max-w-[440px] sm:h-[42vh] md:h-[42vh] md:max-w-[520px]">
           {webglReady && (
             <div className="absolute inset-0 z-0" style={atmosphereMaskStyle}>
               <WebGLErrorBoundary fallback={null}>
@@ -163,7 +168,7 @@ export default function Hero() {
           )}
         </div>
 
-        <h1 className="mt-8 flex max-w-full flex-wrap items-center justify-center gap-x-4 font-brand uppercase tracking-wide text-cream drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] [font-size:clamp(2.5rem,7vw,5.5rem)] md:mt-10">
+        <h1 className="mt-6 flex max-w-full flex-wrap items-center justify-center gap-x-4 font-brand uppercase tracking-wide text-cream drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] [font-size:clamp(2.25rem,6vw,4.5rem)] md:mt-7">
           {title.map((word) => (
             <span key={word} className="hero-word inline-block">
               {word}
@@ -175,7 +180,7 @@ export default function Hero() {
           {siteConfig.tagline}
         </p>
 
-        <p className="hero-sub mt-7 max-w-lg font-sans text-sm leading-relaxed text-parchment md:mt-8 md:text-base">
+        <p className="hero-sub mt-6 max-w-lg font-sans text-sm leading-relaxed text-parchment md:mt-6 md:text-base">
           A modern Latin American grill in Franklin Square, built around the
           open flame.
         </p>
@@ -184,7 +189,7 @@ export default function Hero() {
             single filled button; the menu keeps an outline and Visit drops to
             a text link. One filled control means the hierarchy reads at a
             glance instead of two equals competing. */}
-        <div className="hero-cta mt-9 flex flex-col items-center gap-4 sm:flex-row md:mt-10">
+        <div className="hero-cta mt-7 flex flex-col items-center gap-4 sm:flex-row md:mt-8">
           <a
             href="/order"
             className="rounded-full bg-gold px-8 py-3.5 font-sans text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:bg-gold-bright"

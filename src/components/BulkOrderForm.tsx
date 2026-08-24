@@ -46,7 +46,7 @@ export default function BulkOrderForm() {
               onChange={(e) => setNeededBy(e.target.value)}
               className={inputClasses}
             />
-            <p className="mt-2 font-sans text-xs italic text-muted">
+            <p className="mt-2 font-sans text-sm italic text-muted">
               1 week notice preferred
             </p>
           </div>

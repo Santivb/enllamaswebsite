@@ -417,11 +417,11 @@ export default function OrderBuilder() {
                   <div>
                     <p className="font-display text-base text-cream">{item.name}</p>
                     {item.description && (
-                      <p className="mt-0.5 font-sans text-xs text-gold/60">
+                      <p className="mt-0.5 font-sans text-sm text-muted">
                         {item.description}
                       </p>
                     )}
-                    <p className="mt-0.5 font-sans text-xs text-gold-bright">
+                    <p className="mt-1 font-sans text-sm text-gold-bright">
                       {item.priceLabel}
                     </p>
                   </div>
@@ -485,7 +485,7 @@ export default function OrderBuilder() {
               <span>Total</span>
               <span className="tabular-nums">${total.toFixed(2)}</span>
             </div>
-            <p className="mt-2 font-sans text-xs text-muted">
+            <p className="mt-2 font-sans text-sm text-muted">
               Tax not included. Payment is required to place your order —
               you&rsquo;ll be redirected to Stripe&rsquo;s secure checkout to
               complete payment.

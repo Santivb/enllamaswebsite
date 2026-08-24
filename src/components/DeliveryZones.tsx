@@ -12,10 +12,14 @@ export default function DeliveryZones({ className = "" }: { className?: string }
           <span className="whitespace-nowrap font-sans text-sm text-cream">
             {zone.label}
           </span>
-          <span className="whitespace-nowrap font-sans text-xs text-muted">
-            ${zone.minOrder} min ·{" "}
-            <span className="text-gold-bright">
-              {zone.deliveryFee === 0 ? "Free delivery" : `$${zone.deliveryFee} fee`}
+          {/* The minimum decides whether someone can order at all, so it takes
+              the emphasis. Free delivery is the reassurance underneath, not the
+              headline — it used to be the other way round, with the spend
+              requirement in the quietest tone on the row. */}
+          <span className="whitespace-nowrap text-right font-sans">
+            <span className="text-sm text-cream">${zone.minOrder} minimum</span>
+            <span className="ml-2 text-sm text-muted">
+              {zone.deliveryFee === 0 ? "· free delivery" : `· $${zone.deliveryFee} fee`}
             </span>
           </span>
         </li>
