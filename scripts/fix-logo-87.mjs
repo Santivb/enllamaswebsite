@@ -1,13 +1,14 @@
 import sharp from "sharp";
 import path from "node:path";
 
-const scratch =
-  "C:/Users/santi/AppData/Local/Temp/claude/C--Users-santi-claude/e816a134-f8ca-45cf-9e62-233e98364a64/scratchpad/logo";
 const root = path.resolve(import.meta.dirname, "..");
+// Working folder holding the two intermediate logo renders. Not committed —
+// point this at wherever the source files live when re-running.
+const scratch = path.join(root, "assets-src/logo");
 
-// The AI background-remover silently dropped the "87" numeral (it's spatially
+// The background-removal pass silently dropped the "87" numeral (it's spatially
 // detached from the main badge silhouette). We patch it back in locally from
-// the original opaque generation, using a plain white-background threshold to
+// the original opaque render, using a plain white-background threshold to
 // key just that small region — cheap and safe since ring/ribbon pixels that
 // overlap the crop are identical to what's already in the base, so redrawing
 // them is a visual no-op.

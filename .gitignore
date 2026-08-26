@@ -37,9 +37,11 @@ yarn-error.log*
 # vercel
 .vercel
 
-# local Claude Code tool config (dev server launch settings, permissions) —
-# not part of the application
+# local editor / tooling config — not part of the application
 /.claude/
+/.vscode/
+CLAUDE.md
+AGENTS.md
 
 # typescript
 *.tsbuildinfo
