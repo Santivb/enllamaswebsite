@@ -238,3 +238,16 @@ body.has-cart-bar .social-fab {
     scroll-behavior: auto !important;
   }
 }
+
+/* Consent banner entrance. The `motion-safe:` variant on the element keeps
+   this off for anyone who prefers reduced motion. */
+@keyframes consent-in {
+  from {
+    opacity: 0;
+    transform: translateY(120%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

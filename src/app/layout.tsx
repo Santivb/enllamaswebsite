@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Cormorant_Garamond, Inter, Bevan } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
+import ConsentProvider from "@/components/ConsentProvider";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FloatingSocialBar from "@/components/FloatingSocialBar";
@@ -128,14 +129,16 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <SmoothScroll>
-          <Nav />
-          <main id="main-content" className="flex flex-1 flex-col">
-            {children}
-          </main>
-          <Footer />
-          <FloatingSocialBar />
-        </SmoothScroll>
+        <ConsentProvider>
+          <SmoothScroll>
+            <Nav />
+            <main id="main-content" className="flex flex-1 flex-col">
+              {children}
+            </main>
+            <Footer />
+            <FloatingSocialBar />
+          </SmoothScroll>
+        </ConsentProvider>
         <div className="grain-overlay" aria-hidden="true" />
       </body>
     </html>

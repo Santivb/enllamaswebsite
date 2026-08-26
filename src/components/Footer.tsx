@@ -2,6 +2,7 @@ import { siteConfig } from "@/lib/menu-data";
 import SocialIcons from "./SocialIcons";
 import PaymentMethods from "./PaymentMethods";
 import PhoneLinks from "./PhoneLinks";
+import ConsentReopenButton from "./ConsentReopenButton";
 
 const EXPLORE_LINKS = [
   { href: "/#story", label: "Our Story" },
@@ -15,6 +16,14 @@ const VISIT_LINKS = [
   { href: "/catering", label: "Catering" },
   { href: "/bulk-orders", label: "Bulk Orders" },
   { href: "/contact", label: "Contact" },
+];
+
+// House standard: every delivered site links its legal set from the footer, on
+// every page.
+const LEGAL_LINKS = [
+  { href: "/terms", label: "Terms of Use" },
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/order-policy", label: "Order & Cancellation Policy" },
 ];
 
 export default function Footer() {
@@ -91,6 +100,26 @@ export default function Footer() {
             </p>
             <PaymentMethods />
           </div>
+        </div>
+      </div>
+
+      <div className="border-t border-line">
+        <div className="mx-auto max-w-6xl px-6 py-6 md:px-10">
+          <nav
+            aria-label="Legal"
+            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+          >
+            {LEGAL_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="font-sans text-[11px] uppercase tracking-[0.2em] text-subtle transition-colors hover:text-gold-bright"
+              >
+                {link.label}
+              </a>
+            ))}
+            <ConsentReopenButton />
+          </nav>
         </div>
       </div>
 

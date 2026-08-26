@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import InquiryForm from "@/components/InquiryForm";
 import SocialIcons from "@/components/SocialIcons";
+import MapEmbed from "@/components/MapEmbed";
 import ServiceHours from "@/components/ServiceHours";
 import PhoneLinks from "@/components/PhoneLinks";
 import { businessConfig } from "@/config/business";
@@ -11,7 +12,6 @@ export const metadata: Metadata = {
   description: "Get in touch with En Llamas 87 in Franklin Square, NY.",
 };
 
-const mapQuery = encodeURIComponent(businessConfig.address.full);
 
 export default function ContactPage() {
   return (
@@ -84,12 +84,10 @@ export default function ContactPage() {
             </div>
 
             <div className="relative aspect-video overflow-hidden rounded-sm border border-line">
-              <iframe
-                title="En Llamas 87 location map"
-                src={`https://maps.google.com/maps?q=${mapQuery}&z=15&output=embed`}
+              <MapEmbed
+                query={businessConfig.address.full}
+                directionsUrl={businessConfig.googleMapsUrl}
                 className="h-full w-full grayscale-[40%] contrast-125 invert-[0.92]"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
             <a

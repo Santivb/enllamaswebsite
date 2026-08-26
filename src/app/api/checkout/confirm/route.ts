@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import { getCompletedCheckoutSession } from "@/lib/services/payments";
-import { sendInquiryEmail } from "@/lib/services/email";
+import { summarizeOrder } from "@/lib/services/order-notifications";
 
-// Guards against emailing the kitchen twice if the customer reloads the
-// success page. Resets on server restart — fine at this order volume; a
-// persistent store would be needed for stronger guarantees.
-const confirmedSessions = new Set<string>();
-
+/**
+ * Backs the "thanks, your order is in" screen after Stripe redirects the
+ * customer home.
+ *
+ * This route is display-only. It used to be what emailed the kitchen, which
+ * meant an order only reached the restaurant if the customer's browser made it
+ * back from Stripe — close the tab after paying and the order vanished. That
+ * job now belongs to /api/stripe/webhook, which Stripe calls directly and
+ * retries on failure. Nothing here should ever be the only path to the kitchen
+ * again.
+ */
 export async function GET(request: Request) {
   const sessionId = new URL(request.url).searchParams.get("session_id");
   if (!sessionId) {
@@ -25,44 +31,14 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Payment not completed." }, { status: 402 });
   }
 
-  const itemsSummary =
-    session.line_items?.data
-      .map(
-        (line) =>
-          `${line.quantity}x ${line.description} ($${((line.amount_total ?? 0) / 100).toFixed(2)})`
-      )
-      .join("; ") || "";
-  const total = `$${((session.amount_total ?? 0) / 100).toFixed(2)}`;
-  const name = session.metadata?.name || "Guest";
-  const phone = session.metadata?.phone || undefined;
-  const fulfillment = session.metadata?.fulfillment || "Pickup";
-  const address = session.metadata?.address || undefined;
-  const notes = session.metadata?.notes || undefined;
-  const email = session.customer_details?.email || "";
+  const order = summarizeOrder(session);
 
-  if (!confirmedSessions.has(sessionId)) {
-    confirmedSessions.add(sessionId);
-    try {
-      await sendInquiryEmail({
-        type: "order",
-        name,
-        email,
-        phone,
-        message: notes || "(none provided)",
-        details: {
-          Fulfillment: fulfillment,
-          ...(address ? { "Delivery Address": address } : {}),
-          Items: itemsSummary,
-          "Order Total (paid online)": total,
-          Payment: "Paid online via Stripe",
-        },
-      });
-    } catch (err) {
-      // Payment already succeeded — don't fail the confirmation over a
-      // notification-email hiccup, just log it for follow-up.
-      console.error("Failed to send order confirmation email:", err);
-    }
-  }
-
-  return NextResponse.json({ ok: true, name, itemsSummary, total, fulfillment, address });
+  return NextResponse.json({
+    ok: true,
+    name: order.name,
+    itemsSummary: order.itemsSummary,
+    total: order.total,
+    fulfillment: order.fulfillment,
+    address: order.address,
+  });
 }

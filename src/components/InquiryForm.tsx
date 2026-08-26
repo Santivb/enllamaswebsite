@@ -156,6 +156,17 @@ export default function InquiryForm({
       >
         {status === "submitting" ? "Sending..." : submitLabel}
       </button>
+
+      {/* Point-of-collection notice. House standard: wherever a form takes
+          personal details, say what happens to them right there — a policy
+          buried in the footer is not a disclosure. */}
+      <p className="font-sans text-xs leading-relaxed text-subtle">
+        We use your details only to answer this message. See our{" "}
+        <a href="/privacy" className="text-gold hover:text-gold-bright">
+          privacy policy
+        </a>
+        .
+      </p>
     </form>
   );
 }

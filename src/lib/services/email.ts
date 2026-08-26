@@ -50,11 +50,7 @@ export async function sendInquiryEmail(inquiry: EmailInquiry): Promise<void> {
   }
 
   const label = INQUIRY_LABELS[inquiry.type];
-  const submittedAt = new Date().toLocaleString("en-US", {
-    timeZone: "America/New_York",
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+  const submittedAt = formatSubmittedAt();
   const subject = `[${label}] New inquiry from ${inquiry.name}`;
   const text = buildTicketText(inquiry, label, submittedAt);
   const html = buildTicketHtml(inquiry, label, submittedAt);
@@ -95,6 +91,26 @@ export async function sendInquiryEmail(inquiry: EmailInquiry): Promise<void> {
     text,
     html,
   });
+}
+
+function formatSubmittedAt(): string {
+  return new Date().toLocaleString("en-US", {
+    timeZone: "America/New_York",
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+}
+
+/**
+ * Renders the plain-text kitchen ticket on its own, without sending anything.
+ *
+ * This is the same string that goes out as the email's text body, exposed so
+ * the receipt printer (src/lib/services/print.ts) prints byte-identical
+ * content. Keep it here so the ticket layout has exactly one definition —
+ * if the kitchen wants a field moved, it moves in both places at once.
+ */
+export function renderTicketText(inquiry: EmailInquiry): string {
+  return buildTicketText(inquiry, INQUIRY_LABELS[inquiry.type], formatSubmittedAt());
 }
 
 const TICKET_WIDTH = 32;

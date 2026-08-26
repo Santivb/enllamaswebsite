@@ -581,6 +581,26 @@ export default function OrderBuilder() {
                   ? "Redirecting to payment..."
                   : `Pay $${total.toFixed(2)} Now`}
               </button>
+
+              {/* Point-of-sale disclosure. House standard: the buyer sees the
+                  terms they are agreeing to at the moment they pay, not only
+                  as a footer link. */}
+              <p className="font-sans text-xs leading-relaxed text-subtle">
+                By paying you agree to our{" "}
+                <a href="/order-policy" className="text-gold hover:text-gold-bright">
+                  order &amp; cancellation policy
+                </a>{" "}
+                and{" "}
+                <a href="/terms" className="text-gold hover:text-gold-bright">
+                  terms of use
+                </a>
+                . Your details are handled as described in our{" "}
+                <a href="/privacy" className="text-gold hover:text-gold-bright">
+                  privacy policy
+                </a>
+                . Card payment is processed by Stripe; we never see your card
+                number.
+              </p>
             </div>
           </>
         )}

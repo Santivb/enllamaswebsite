@@ -7,10 +7,10 @@ import { siteConfig } from "@/lib/menu-data";
 import { revealOnScroll } from "@/lib/motion";
 import ServiceHours from "./ServiceHours";
 import PhoneLinks from "./PhoneLinks";
+import MapEmbed from "./MapEmbed";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const mapQuery = encodeURIComponent(siteConfig.address.full);
 
 export default function VisitSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -97,12 +97,10 @@ export default function VisitSection() {
         </div>
 
         <div className="visit-reveal relative aspect-square overflow-hidden rounded-sm border border-line md:aspect-auto">
-          <iframe
-            title="En Llamas 87 location map"
-            src={`https://maps.google.com/maps?q=${mapQuery}&z=15&output=embed`}
+          <MapEmbed
+            query={siteConfig.address.full}
+            directionsUrl={siteConfig.googleMapsUrl}
             className="h-full min-h-[360px] w-full grayscale-[40%] contrast-125 invert-[0.92]"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
       </div>

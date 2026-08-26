@@ -28,8 +28,42 @@ export function isStripeConfigured(): boolean {
   return Boolean(process.env.STRIPE_SECRET_KEY);
 }
 
-function getStripeClient(): Stripe {
+export function getStripeClient(): Stripe {
   return new Stripe(process.env.STRIPE_SECRET_KEY!);
+}
+
+export class WebhookNotConfiguredError extends Error {
+  constructor() {
+    super(
+      "The Stripe webhook isn't configured yet. Set STRIPE_WEBHOOK_SECRET in " +
+        ".env.local — see .env.example."
+    );
+    this.name = "WebhookNotConfiguredError";
+  }
+}
+
+export function isWebhookConfigured(): boolean {
+  return Boolean(process.env.STRIPE_WEBHOOK_SECRET);
+}
+
+/**
+ * Verifies a Stripe webhook signature and returns the parsed event.
+ *
+ * `payload` must be the raw request body exactly as received — parsing and
+ * re-serialising the JSON changes the bytes and the signature will not match.
+ *
+ * Uses constructEventAsync because signature verification runs on the Web
+ * Crypto API here, which is async.
+ */
+export async function constructWebhookEvent(
+  payload: string,
+  signature: string
+): Promise<Stripe.Event> {
+  if (!isStripeConfigured()) throw new PaymentsNotConfiguredError();
+  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!secret) throw new WebhookNotConfiguredError();
+
+  return getStripeClient().webhooks.constructEventAsync(payload, signature, secret);
 }
 
 /** Creates a hosted Stripe Checkout session for a cart and returns its URL. */
