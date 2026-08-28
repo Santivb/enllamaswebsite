@@ -3,7 +3,10 @@ import { businessConfig } from "@/config/business";
 export type OrderingStatus =
   | { open: true }
   | { open: false; reason: "closed"; reopensAt?: string }
-  | { open: false; reason: "closing-soon"; closesAt: string };
+  | { open: false; reason: "closing-soon"; closesAt: string }
+  // Online ordering switched off entirely by the client, regardless of hours.
+  // See businessConfig.onlineOrderingEnabled.
+  | { open: false; reason: "paused" };
 
 function parseClockTime(time: string): number | null {
   const match = time.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
@@ -43,11 +46,21 @@ function getNowInRestaurantTz(): { dayName: string; minutes: number } {
 }
 
 /**
- * Whether the site should currently accept online orders: the restaurant
- * must be open, and outside the last-call cutoff window before closing
- * (businessConfig.orderCutoffMinutesBeforeClose).
+ * Whether the site should currently accept online orders: online ordering
+ * must be switched on at all (businessConfig.onlineOrderingEnabled), the
+ * restaurant must be open, and it must be outside the last-call cutoff window
+ * before closing (businessConfig.orderCutoffMinutesBeforeClose).
+ *
+ * This is the single source of truth the UI reads. It is NOT a security
+ * boundary on its own — the checkout API routes carry their own guard, since
+ * anything running in the browser can be bypassed.
  */
 export function getOrderingStatus(): OrderingStatus {
+  // Client-requested pause. Checked first so it wins over hours entirely.
+  if (!businessConfig.onlineOrderingEnabled) {
+    return { open: false, reason: "paused" };
+  }
+
   const { dayName, minutes: nowMinutes } = getNowInRestaurantTz();
   const todayHours = businessConfig.hours.find((h) => h.day === dayName);
 

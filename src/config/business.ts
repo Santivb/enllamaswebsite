@@ -83,6 +83,22 @@ export const businessConfig = {
     { day: "Sunday", time: "12:00 PM – 8:00 PM" },
   ] as { day: string; time: string }[],
 
+  // ---------------------------------------------------------------------
+  // ONLINE ORDERING KILL SWITCH
+  //
+  // PAUSED 2026-08-27 at the client's request, indefinitely ("until further
+  // notice"). While this is false the site accepts no online orders at all:
+  // getOrderingStatus() reports paused, /order shows a call-us notice instead
+  // of the order builder, the Order CTAs become phone links, and both
+  // /api/checkout and /api/checkout/confirm refuse with a 503 before any
+  // Stripe call is made.
+  //
+  // TO RESUME ONLINE ORDERING: change `false` to `true` on the line below.
+  // Nothing else needs to be touched. (`as boolean` only stops the `as const`
+  // on this object from freezing the flag to the literal type `false`.)
+  // ---------------------------------------------------------------------
+  onlineOrderingEnabled: false as boolean,
+
   // Online orders stop being accepted this many minutes before closing time,
   // so the kitchen isn't left scrambling to fill an order right at close.
   orderCutoffMinutesBeforeClose: 10,

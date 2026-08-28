@@ -1,11 +1,33 @@
 import { NextResponse } from "next/server";
+import { businessConfig } from "@/config/business";
 import {
   createCheckoutSession,
   PaymentsNotConfiguredError,
   type CheckoutLineItem,
 } from "@/lib/services/payments";
 
+/**
+ * Hard server-side stop for the online-ordering pause (see
+ * businessConfig.onlineOrderingEnabled, paused 2026-08-27).
+ *
+ * This has to live here, not only in the UI: a stale tab, a bookmarked
+ * checkout URL or a hand-rolled POST would otherwise reach Stripe and create
+ * a real, paid order that no one in the kitchen ever sees. The guard runs
+ * before the body is even parsed, so no Stripe call is possible.
+ */
 export async function POST(request: Request) {
+  if (!businessConfig.onlineOrderingEnabled) {
+    return NextResponse.json(
+      {
+        error:
+          "Online ordering is temporarily unavailable. Please call us to " +
+          `place your order: ${businessConfig.phone} or ${businessConfig.phoneSecondary}.`,
+        orderingPaused: true,
+      },
+      { status: 503, headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();

@@ -1,3 +1,4 @@
+import { businessConfig } from "@/config/business";
 import { siteConfig } from "@/lib/menu-data";
 import SocialIcons from "./SocialIcons";
 import PaymentMethods from "./PaymentMethods";
@@ -11,8 +12,12 @@ const EXPLORE_LINKS = [
   { href: "/gallery", label: "Gallery" },
 ];
 
+// Online ordering paused 2026-08-27 — see businessConfig.onlineOrderingEnabled.
+// The footer points at the phone instead of at a page that cannot take an order.
 const VISIT_LINKS = [
-  { href: "/order", label: "Order Online" },
+  businessConfig.onlineOrderingEnabled
+    ? { href: "/order", label: "Order Online" }
+    : { href: businessConfig.phoneHref, label: "Order by Phone" },
   { href: "/catering", label: "Catering" },
   { href: "/bulk-orders", label: "Bulk Orders" },
   { href: "/contact", label: "Contact" },

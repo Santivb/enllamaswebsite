@@ -3,19 +3,29 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { businessConfig } from "@/config/business";
 import { siteConfig } from "@/lib/menu-data";
 import SocialIcons from "./SocialIcons";
+
+// Online ordering paused 2026-08-27 — see businessConfig.onlineOrderingEnabled.
+// While it is off, the nav stops advertising online ordering and the header
+// CTA dials the restaurant instead. /order itself stays reachable.
+const orderingPaused = !businessConfig.onlineOrderingEnabled;
 
 const LINKS = [
   { href: "/#story", label: "Our Story" },
   { href: "/menu", label: "Menu" },
   { href: "/drinks", label: "Drinks" },
-  { href: "/order", label: "Order Online" },
+  ...(orderingPaused ? [] : [{ href: "/order", label: "Order Online" }]),
   { href: "/catering", label: "Catering" },
   { href: "/gallery", label: "Gallery" },
   { href: "/#visit", label: "Visit Us" },
   { href: "/contact", label: "Contact" },
 ];
+
+const ORDER_CTA = orderingPaused
+  ? { href: businessConfig.phoneHref, label: "Call to Order" }
+  : { href: "/order", label: "Order" };
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -69,10 +79,10 @@ export default function Nav() {
           <div className="hidden items-center gap-5 lg:flex">
             <SocialIcons iconClassName="h-[15px] w-[15px]" />
             <a
-              href="/order"
+              href={ORDER_CTA.href}
               className="rounded-full border border-gold/40 px-5 py-2 font-sans text-[11px] uppercase tracking-[0.18em] text-gold-bright transition-colors hover:border-gold hover:bg-gold/10"
             >
-              Order
+              {ORDER_CTA.label}
             </a>
           </div>
 
@@ -128,14 +138,14 @@ export default function Nav() {
               ))}
 
               <motion.a
-                href="/order"
+                href={ORDER_CTA.href}
                 onClick={() => setOpen(false)}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 + LINKS.length * 0.05, duration: 0.5 }}
                 className="mt-6 rounded-full border border-gold/40 px-8 py-3 font-sans text-xs uppercase tracking-[0.25em] text-gold-bright"
               >
-                Order
+                {ORDER_CTA.label}
               </motion.a>
             </div>
 

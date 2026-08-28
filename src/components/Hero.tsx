@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import type { CSSProperties } from "react";
 import { useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import { gsap } from "gsap";
+import { businessConfig } from "@/config/business";
 import { siteConfig } from "@/lib/menu-data";
 import { prefersReducedMotion } from "@/lib/motion";
 import { isWebGLAvailable } from "@/lib/webgl";
@@ -190,11 +191,19 @@ export default function Hero() {
             a text link. One filled control means the hierarchy reads at a
             glance instead of two equals competing. */}
         <div className="hero-cta mt-7 flex flex-col items-center gap-4 sm:flex-row md:mt-8">
+          {/* Online ordering paused 2026-08-27 (businessConfig
+              .onlineOrderingEnabled). The filled button keeps its slot in the
+              hierarchy, but it dials the restaurant instead of opening a
+              checkout that would refuse the order anyway. */}
           <a
-            href="/order"
+            href={
+              businessConfig.onlineOrderingEnabled
+                ? "/order"
+                : businessConfig.phoneHref
+            }
             className="rounded-full bg-gold px-8 py-3.5 font-sans text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:bg-gold-bright"
           >
-            Order Online
+            {businessConfig.onlineOrderingEnabled ? "Order Online" : "Call to Order"}
           </a>
           <a
             href="/menu"

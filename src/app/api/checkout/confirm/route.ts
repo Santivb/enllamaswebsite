@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { after } from "next/server";
+import { businessConfig } from "@/config/business";
 import { getCompletedCheckoutSession } from "@/lib/services/payments";
 import { notifyKitchen, summarizeOrder } from "@/lib/services/order-notifications";
 
@@ -37,6 +38,22 @@ export const maxDuration = 30;
  * coming back, and it cannot retry.
  */
 export async function GET(request: Request) {
+  // Online-ordering pause (businessConfig.onlineOrderingEnabled, paused
+  // 2026-08-27). Refuses before any Stripe call. Stripe's own webhook at
+  // /api/stripe/webhook is deliberately NOT gated, so a session that was
+  // already paid for still reaches the kitchen by that path.
+  if (!businessConfig.onlineOrderingEnabled) {
+    return NextResponse.json(
+      {
+        error:
+          "Online ordering is temporarily unavailable. If you believe you were " +
+          `charged, call us right away: ${businessConfig.phone} or ${businessConfig.phoneSecondary}.`,
+        orderingPaused: true,
+      },
+      { status: 503, headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
   const sessionId = new URL(request.url).searchParams.get("session_id");
   if (!sessionId) {
     return NextResponse.json({ error: "Missing session_id." }, { status: 400 });

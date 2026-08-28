@@ -336,18 +336,27 @@ export default function OrderBuilder() {
   }
 
   if (orderingStatus && !orderingStatus.open) {
+    // "paused" is the client-requested indefinite pause
+    // (businessConfig.onlineOrderingEnabled, set 2026-08-27). The /order page
+    // does not render this component at all while paused, but the case is
+    // handled here so the builder is never wrong about its own state.
+    const headline =
+      orderingStatus.reason === "paused"
+        ? "Online ordering is temporarily unavailable."
+        : orderingStatus.reason === "closing-soon"
+          ? "Online ordering has closed for tonight."
+          : "We're closed right now.";
+    const detail =
+      orderingStatus.reason === "paused"
+        ? "We're still taking orders over the phone — give us a call and we'll take it down for you."
+        : orderingStatus.reason === "closing-soon"
+          ? `We stop taking online orders shortly before we close at ${orderingStatus.closesAt}.`
+          : "Check our hours above, or call ahead and we'll do our best to help.";
+
     return (
       <div className="rounded-sm border border-gold/30 bg-charcoal/60 px-6 py-10 text-center">
-        <p className="font-display text-xl text-gold-bright">
-          {orderingStatus.reason === "closing-soon"
-            ? "Online ordering has closed for tonight."
-            : "We're closed right now."}
-        </p>
-        <p className="mt-2 font-sans text-sm text-parchment">
-          {orderingStatus.reason === "closing-soon"
-            ? `We stop taking online orders shortly before we close at ${orderingStatus.closesAt}.`
-            : "Check our hours above, or call ahead and we'll do our best to help."}
-        </p>
+        <p className="font-display text-xl text-gold-bright">{headline}</p>
+        <p className="mt-2 font-sans text-sm text-parchment">{detail}</p>
         <div className="mt-3 font-sans text-sm text-parchment">
           Call us: <PhoneLinks className="inline text-gold-bright" />
         </div>
