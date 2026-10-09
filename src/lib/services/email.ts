@@ -61,7 +61,10 @@ export async function sendInquiryEmail(inquiry: EmailInquiry): Promise<void> {
       // TODO: verify a sending domain in Resend and use an address on it
       // (e.g. "En Llamas 87 <inquiries@enllamsrestaurant.com>") instead of the
       // shared onboarding sender.
-      from: "En Llamas 87 Website <onboarding@resend.dev>",
+      // Hermes 2026-10-09: RESEND_FROM = an address on a domain verified in
+      // Resend (FlowWays' flowway.dev), so mail reaches the owner's inbox;
+      // the shared onboarding sender only delivers to the Resend account owner.
+      from: process.env.RESEND_FROM || "En Llamas 87 Website <onboarding@resend.dev>",
       to,
       replyTo: inquiry.email,
       subject,
