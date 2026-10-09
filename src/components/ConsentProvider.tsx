@@ -121,11 +121,12 @@ export default function ConsentProvider({ children }: { children: ReactNode }) {
             Privacy
           </p>
           <p className="mt-3 font-sans text-sm leading-relaxed text-parchment">
-            This site uses no analytics, advertising or tracking cookies. We
-            only need your permission for the embedded Google map, which loads
-            from Google — it can see your IP address and set its own cookies.
-            Decline and we will show the address in plain text instead. More in
-            our{" "}
+            {/* Kept short on purpose: on a phone this paragraph was the largest
+                block on the first screen, so the page's load time was measured
+                on the banner. The detail (Google sees the IP address and sets
+                its own cookies) lives in the Privacy Policy linked here. */}
+            We use no tracking cookies. The Google map loads only if you allow
+            it. More in our{" "}
             <a
               href="/privacy"
               className="text-gold underline underline-offset-2 transition-colors hover:text-gold-bright"

@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { CSSProperties } from "react";
-import { useLayoutEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { businessConfig } from "@/config/business";
 import { siteConfig } from "@/lib/menu-data";
@@ -21,7 +21,21 @@ const FrontAtmosphere = dynamic(() => import("./hero/FrontAtmosphere"), {
   ssr: false,
 });
 
-const noopSubscribe = () => () => {};
+/**
+ * The smoke and embers pull in three.js (about 234 KB over the wire and over
+ * a second of CPU on a mid-range phone), so they load only where they pay for
+ * themselves: a screen at least 768px wide, no reduced-motion preference, no
+ * data saver, working WebGL. Everyone else gets the logo on its own, which
+ * LogoEmblem renders without WebGL.
+ */
+function shouldLoadAtmosphere(): boolean {
+  if (!window.matchMedia("(min-width: 768px)").matches) return false;
+  if (prefersReducedMotion()) return false;
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+    .connection;
+  if (connection?.saveData) return false;
+  return isWebGLAvailable();
+}
 
 // The WebGL canvas is a hard rectangle on all four sides — without this, the
 // flame/ember effects clip abruptly at its edges instead of dissolving into
@@ -41,65 +55,51 @@ const atmosphereMaskStyle: CSSProperties = {
 
 export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
-  const webglReady = useSyncExternalStore(
-    noopSubscribe,
-    isWebGLAvailable,
-    () => false
-  );
+  const [webglReady, setWebglReady] = useState(false);
 
+  // Waits for the load event and then an idle moment, so three.js never
+  // competes with the logo and the hero text for the first paint.
+  useEffect(() => {
+    if (!shouldLoadAtmosphere()) return;
+    let idleId: number | undefined;
+    let timerId: number | undefined;
+    const start = () => setWebglReady(true);
+    const schedule = () => {
+      // Safari has no requestIdleCallback.
+      if (typeof window.requestIdleCallback === "function") {
+        idleId = window.requestIdleCallback(start, { timeout: 3000 });
+      } else {
+        timerId = window.setTimeout(start, 1500);
+      }
+    };
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
+    return () => {
+      window.removeEventListener("load", schedule);
+      if (idleId !== undefined) window.cancelIdleCallback(idleId);
+      if (timerId !== undefined) window.clearTimeout(timerId);
+    };
+  }, []);
+
+  // The logo and the hero text arrive visible in the server HTML and stay
+  // visible: hiding them until this script runs held the logo (the page's
+  // largest element) back by seconds on phones. The intro keeps a small
+  // scale settle on the logo and the scroll cue's fade.
   useLayoutEffect(() => {
-    if (prefersReducedMotion()) {
-      gsap.set(
-        [
-          ".hero-emblem-stage",
-          ".hero-word",
-          ".hero-tagline",
-          ".hero-sub",
-          ".hero-cta",
-          ".hero-scroll-cue",
-        ],
-        { opacity: 1, y: 0, x: 0, scale: 1, filter: "none" }
-      );
-      return;
-    }
+    if (prefersReducedMotion()) return;
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.fromTo(
         ".hero-emblem-stage",
-        { opacity: 0, scale: 0.92 },
-        { opacity: 1, scale: 1, duration: 1.6, ease: "power2.out" }
-      )
-        .fromTo(
-          ".hero-word",
-          { opacity: 0, y: 40, filter: "blur(6px)" },
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, stagger: 0.08 },
-          "-=1.0"
-        )
-        .fromTo(
-          ".hero-tagline",
-          { opacity: 0, y: 12 },
-          { opacity: 1, y: 0, duration: 0.8 },
-          "-=0.4"
-        )
-        .fromTo(
-          ".hero-sub",
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.9 },
-          "-=0.4"
-        )
-        .fromTo(
-          ".hero-cta",
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.8 },
-          "-=0.4"
-        )
-        .fromTo(
-          ".hero-scroll-cue",
-          { opacity: 0 },
-          { opacity: 1, duration: 0.8 },
-          "-=0.2"
-        );
+        { scale: 0.96 },
+        { scale: 1, duration: 1.2, ease: "power2.out" }
+      ).fromTo(
+        ".hero-scroll-cue",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8 },
+        "-=0.2"
+      );
     }, rootRef);
 
     return () => ctx.revert();
