@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import BulkOrderForm from "@/components/BulkOrderForm";
+import { businessConfig } from "@/config/business";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Bulk Orders",
-  description:
-    "Order a bigger quantity from the regular menu at En Llamas 87 in Franklin Square, NY. 1 week notice preferred.",
-};
+export const metadata = pageMeta(
+  "/bulk-orders",
+  "Bulk Food Orders, Franklin Square NY",
+  `Order large quantities from the regular menu at En Llamas 87 in Franklin Square. One week notice preferred. Request a quote online or call ${businessConfig.phone}.`
+);
 
 export default function BulkOrdersPage() {
   return (

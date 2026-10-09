@@ -43,9 +43,9 @@ export default function MenuSection() {
             <div key={category.id} className="menu-category">
               <div className="flex items-center gap-4">
                 <span className="divider-line flex-1" />
-                <h3 className="section-heading whitespace-nowrap text-xl md:text-2xl">
+                <h2 className="section-heading whitespace-nowrap text-xl md:text-2xl">
                   {category.title}
-                </h3>
+                </h2>
                 <span className="divider-line flex-1" />
               </div>
 
@@ -63,9 +63,9 @@ export default function MenuSection() {
                       className="border-b border-line/60 pb-4"
                     >
                       <div className="flex items-baseline justify-between gap-4">
-                        <h4 className="font-display text-lg text-gold-bright md:text-xl">
+                        <h3 className="font-display text-lg text-gold-bright md:text-xl">
                           {item.name}
-                        </h4>
+                        </h3>
                         {item.price && (
                           <span className="whitespace-nowrap font-display text-base text-gold md:text-lg">
                             {item.price}

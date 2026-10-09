@@ -13,12 +13,20 @@
  */
 
 export const businessConfig = {
+  // PART0: 0.1 public name. Google's listing says "En Llamas Restaurant & Bar".
+  // Titles, link previews, the footer and the schema all read this.
   name: "En Llamas 87",
   // Used for decorative headings/wordmarks (nav, footer, section titles) —
   // the full name with "87" stays in the logo, metadata, and brand story.
   displayName: "En Llamas",
   tagline: "Amantes de la Parrilla",
   taglineEn: "Lovers of the Grill",
+
+  // PART0: 0.5 how the food is described. `cuisine` is the wording used in
+  // the home and menu titles and descriptions; `servesCuisine` goes into the
+  // Restaurant schema. Change both here and every page follows.
+  cuisine: "Modern Latin American Grill",
+  servesCuisine: ["Latin American", "Grill"] as string[],
 
   // The live domain. Canonical URLs, Open Graph tags, the sitemap and
   // robots.txt all build off this, so it must match what the site is
@@ -33,6 +41,9 @@ export const businessConfig = {
   },
 
   // From En Llamas 87's own printed menu (two lines).
+  // PART0: 0.2 lead phone. Google shows (516) 216-5440. To lead with it, swap
+  // `phone`/`phoneHref` with the secondary pair. Page descriptions, the call
+  // buttons and the schema `telephone` all read `phone`.
   phone: "(516) 216-5439",
   phoneHref: "tel:+15162165439",
   phoneSecondary: "(516) 216-5440",
@@ -47,6 +58,8 @@ export const businessConfig = {
   // services below each run on their own narrower window inside these:
   // the deli/breakfast counter in the morning, the main/dinner menu from
   // late morning on. Source: the restaurant's Google Business Profile.
+  // PART0: 0.3 real hours. The schema's openingHoursSpecification is built
+  // from `hours`, so editing these rows updates it too.
   hours: [
     { day: "Monday", time: "6:00 AM – 9:00 PM" },
     { day: "Tuesday", time: "6:00 AM – 9:00 PM" },
@@ -123,7 +136,7 @@ export const businessConfig = {
 
   social: {
     instagram: "https://www.instagram.com/enllamasrestaurant/" as string | null,
-    facebook: "https://www.facebook.com/share/1amrVjTKsU/" as string | null,
+    facebook: "https://www.facebook.com/enllamasrestaurant/" as string | null,
     // TODO: add the real handle/URL once a TikTok account exists.
     tiktok: null as string | null,
   },
@@ -136,8 +149,15 @@ export const businessConfig = {
     ubereats: null as string | null,
   },
 
-  googleMapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=885+Hempstead+Tpke%2C+Franklin+Square%2C+NY+11010",
+  // The Google listing itself, by its ID. A search for the street address
+  // opens a bare pin with no restaurant on it. Checked 2026-10-09: this opens
+  // "En Llamas Restaurant & Bar".
+  googleMapsUrl: "https://www.google.com/maps?cid=7420858196735468351",
+
+  // Where "Read our Google reviews" goes. The listing shows the rating and the
+  // reviews. A direct review link needs the listing owner: copy it from the
+  // Business Profile's "Ask for reviews" button and paste it here.
+  googleReviewsUrl: "https://www.google.com/maps?cid=7420858196735468351",
 
   story: {
     heritageName: "Guacamole Mexican Grill",

@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import CateringForm from "@/components/CateringForm";
+import { businessConfig } from "@/config/business";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Catering",
-  description:
-    "Full-flame catering from En Llamas 87. Parrillada and picada platters for your next gathering in Franklin Square, NY.",
-};
+export const metadata = pageMeta(
+  "/catering",
+  "Catering in Franklin Square, NY",
+  `Parrillada and picada platters for office parties, birthdays and backyard events. Send a catering request or call ${businessConfig.phone}. Based in Franklin Square, NY.`
+);
 
 export default function CateringPage() {
   return (

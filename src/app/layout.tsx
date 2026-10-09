@@ -5,6 +5,7 @@ import ConsentProvider from "@/components/ConsentProvider";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FloatingSocialBar from "@/components/FloatingSocialBar";
+import { PAYMENT_METHODS } from "@/components/PaymentIcon";
 import { siteConfig } from "@/lib/menu-data";
 import "./globals.css";
 
@@ -49,15 +50,8 @@ export const metadata: Metadata = {
   },
   description:
     "En Llamas 87: Amantes de la Parrilla. A modern Latin American grill in Franklin Square, NY, built around the open flame: asados, tacos, parrillada and handcrafted Latin classics.",
-  keywords: [
-    "En Llamas 87",
-    "Franklin Square restaurant",
-    "Latin American grill",
-    "parrilla",
-    "steakhouse Franklin Square",
-    "Mexican grill Long Island",
-    "asado restaurant NY",
-  ],
+  // No `alternates.canonical` here: every page would inherit it and point
+  // Google at the home page. Each page sets its own through pageMeta().
   authors: [{ name: "En Llamas 87" }],
   openGraph: {
     type: "website",
@@ -91,11 +85,45 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+/** "6:00 AM" -> "06:00", for schema.org opens/closes. */
+function to24(time: string): string {
+  const match = time.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) throw new Error(`Unreadable time in businessConfig.hours: "${time}"`);
+  const [, h, m, ampm] = match;
+  const hour = (Number(h) % 12) + (ampm.toUpperCase() === "PM" ? 12 : 0);
+  return `${String(hour).padStart(2, "0")}:${m}`;
+}
+
+// Built from the same `hours` rows the footer and Visit section show, so the
+// schema can never drift from the visible hours. Uses doors-open hours only.
+const openingHoursSpecification = siteConfig.hours
+  .filter((d) => !/closed/i.test(d.time))
+  .map((d) => {
+    const [opens, closes] = d.time.split(/\s*[–-]\s*/);
+    return {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: `https://schema.org/${d.day}`,
+      opens: to24(opens),
+      closes: to24(closes),
+    };
+  });
+
+// No `geo`: businessConfig holds no coordinates.
 const restaurantJsonLd = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
-  name: siteConfig.name,
-  servesCuisine: ["Latin American", "Mexican", "Grill", "Steakhouse"],
+  "@id": `${siteUrl}/#restaurant`,
+  name: siteConfig.name, // PART0: 0.1, set in businessConfig.name
+  // PART0: 0.1 drop or reorder these once the public name is settled.
+  alternateName: ["En Llamas", "En Llamas Restaurant & Bar"],
+  url: siteUrl,
+  telephone: siteConfig.phoneHref.replace(/^tel:/, ""), // PART0: 0.2, set in businessConfig.phone
+  image: `${siteUrl}/og-image.jpg`,
+  logo: `${siteUrl}/assets/logo/favicon-512.png`,
+  // Inferred from the menu prices, not from a stated range.
+  priceRange: "$$",
+  servesCuisine: siteConfig.servesCuisine, // PART0: 0.5, set in businessConfig.servesCuisine
+  hasMenu: `${siteUrl}/menu`,
   address: {
     "@type": "PostalAddress",
     streetAddress: siteConfig.address.line1,
@@ -104,7 +132,10 @@ const restaurantJsonLd = {
     postalCode: "11010",
     addressCountry: "US",
   },
-  url: siteUrl,
+  hasMap: siteConfig.googleMapsUrl,
+  openingHoursSpecification,
+  paymentAccepted: PAYMENT_METHODS.map((m) => m.label).join(", "),
+  sameAs: [siteConfig.social.instagram, siteConfig.social.facebook, siteConfig.googleMapsUrl].filter(Boolean),
   slogan: siteConfig.tagline,
 };
 

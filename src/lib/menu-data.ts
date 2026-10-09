@@ -189,6 +189,9 @@ export type FeaturedDish = {
   // Real dish photo, when available — falls back to the placeholder
   // ember-gradient treatment (see .dish-card in globals.css) when omitted.
   image?: string;
+  // Describes the photo for screen readers and image search. Falls back to
+  // the dish name when omitted.
+  alt?: string;
 };
 
 export const featuredDishes: FeaturedDish[] = [
@@ -197,6 +200,7 @@ export const featuredDishes: FeaturedDish[] = [
     description: "Chef's selection, straight off the grill",
     tag: "For the Table",
     image: "/assets/food/parrillada.jpg",
+    alt: "Parrillada board of grilled steak, chicken, chorizo and green onions with rice, vegetables and arepas",
   },
   {
     name: "Homemade Guacamole",
@@ -209,6 +213,7 @@ export const featuredDishes: FeaturedDish[] = [
     description: "Crispy fried pork belly, cilantro-lime dip",
     tag: "Tapas",
     image: "/assets/food/chicharron.jpg",
+    alt: "Crispy fried pork belly on a wooden board with cilantro dip and lime wedges",
   },
   {
     name: "Chicken Flautas",
@@ -221,18 +226,21 @@ export const featuredDishes: FeaturedDish[] = [
     description: "Melted cheese, beans, pico de gallo & guacamole",
     tag: "Nachos",
     image: "/assets/food/nachos.jpg",
+    alt: "Three plates of nachos with melted cheese, guacamole, pico de gallo, chicken and steak",
   },
   {
     name: "Tacos",
     description: "Onions, cilantro, guacamole & salsa",
     tag: "Tacos",
     image: "/assets/food/tacos.jpg",
+    alt: "Four crispy tacos in a rack with pico de gallo, corn, guacamole and lettuce on the side",
   },
   {
     name: "Fajitas",
     description: "Sizzling chicken, steak & shrimp, onions & peppers",
     tag: "Main Course",
     image: "/assets/food/fajitas.jpg",
+    alt: "Sizzling skillet of chicken, steak and shrimp fajitas with peppers and onions, tortillas and salsa",
   },
   {
     name: "Enchiladas",
@@ -257,6 +265,7 @@ export const featuredDishes: FeaturedDish[] = [
     description: "Soaked in three milks, whipped topping",
     tag: "Dessert",
     image: "/assets/food/tres-leches.jpg",
+    alt: "Slice of tres leches cake with whipped topping, soaked in milk",
   },
   {
     name: "Flan",

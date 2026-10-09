@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import InquiryForm from "@/components/InquiryForm";
 import SocialIcons from "@/components/SocialIcons";
@@ -6,11 +5,15 @@ import MapEmbed from "@/components/MapEmbed";
 import ServiceHours from "@/components/ServiceHours";
 import PhoneLinks from "@/components/PhoneLinks";
 import { businessConfig } from "@/config/business";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Get in touch with En Llamas 87 in Franklin Square, NY.",
-};
+export const metadata = pageMeta(
+  "/contact",
+  "Hours & Directions, Franklin Square NY",
+  // PART0: 0.3 "Open daily ... from 6 AM on weekdays" matches the current
+  // hours and breakfastHours in businessConfig. Edit it if those change.
+  `${businessConfig.name}, ${businessConfig.address.full}. Call ${businessConfig.phone} or ${businessConfig.phoneSecondary}. Open daily, with the breakfast counter from 6 AM on weekdays.`
+);
 
 
 export default function ContactPage() {

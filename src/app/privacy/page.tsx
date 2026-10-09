@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import LegalDocument, { LegalSection } from "@/components/LegalDocument";
 import { businessConfig } from "@/config/business";
 import { legalConfig } from "@/config/legal";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description:
-    "What information En Llamas 87 collects through this website, why, who it is shared with, and how to have it deleted.",
-};
+export const metadata = pageMeta(
+  "/privacy",
+  "Privacy Policy",
+  "What information En Llamas 87 collects through this website, why, who it is shared with, and how to have it deleted."
+);
 
 export default function PrivacyPage() {
   return (

@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import LegalDocument, { LegalSection } from "@/components/LegalDocument";
 import { businessConfig } from "@/config/business";
 import { legalConfig } from "@/config/legal";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Terms of Use",
-  description:
-    "The rules for using the En Llamas 87 website, who operates it, and the limits of what is published here.",
-};
+export const metadata = pageMeta(
+  "/terms",
+  "Terms of Use",
+  "The rules for using the En Llamas 87 website, who operates it, and the limits of what is published here."
+);
 
 export default function TermsPage() {
   return (

@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import LegalDocument, { LegalSection } from "@/components/LegalDocument";
 import { businessConfig } from "@/config/business";
 import { legalConfig } from "@/config/legal";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Order & Cancellation Policy",
-  description:
-    "How online orders work at En Llamas 87 — payment, pickup and delivery, cancellations, refunds, and catering deposits.",
-};
+export const metadata = pageMeta(
+  "/order-policy",
+  "Order & Cancellation Policy",
+  "How online orders work at En Llamas 87: payment, pickup and delivery, cancellations, refunds and catering deposits."
+);
 
 export default function OrderPolicyPage() {
   return (

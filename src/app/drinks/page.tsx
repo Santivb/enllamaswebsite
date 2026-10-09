@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import AlcoholPolicyNotice from "@/components/AlcoholPolicyNotice";
 import { drinkCategories } from "@/lib/drinks-data";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Drinks",
-  description:
-    "Signature cocktails, margaritas, beer, wine, fresh juices and coffee at En Llamas 87 in Franklin Square, NY.",
-};
+export const metadata = pageMeta(
+  "/drinks",
+  "Cocktails, Juices & Beer, Franklin Square NY",
+  "Maracuyá Verde, Colombia Mule and Guayaba Spritz cocktails, sangria, wine, beer, fresh lulo, mango and guanábana juices, and coffee. Alcohol is for dine-in only."
+);
 
 export default function DrinksPage() {
   return (

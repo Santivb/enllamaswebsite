@@ -76,7 +76,7 @@ export default function VisitSection() {
               </h3>
               <p className="mt-2 font-sans text-sm text-muted">
                 Need more of what&rsquo;s on the menu?{" "}
-                <a href="/bulk-orders" className="text-gold-bright hover:underline">
+                <a href="/bulk-orders" className="text-gold-bright underline underline-offset-2">
                   Request a quote
                 </a>
                 . 1 week notice preferred.
@@ -92,6 +92,14 @@ export default function VisitSection() {
               className="inline-flex items-center rounded-full bg-gold px-6 py-3 font-sans text-xs uppercase tracking-[0.2em] text-ink transition-colors hover:bg-gold-bright"
             >
               Get Directions
+            </a>
+            <a
+              href={siteConfig.googleReviewsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-full border border-cream/30 px-6 py-3 font-sans text-xs uppercase tracking-[0.2em] text-cream transition-colors hover:border-cream"
+            >
+              Read our Google reviews
             </a>
           </div>
         </div>

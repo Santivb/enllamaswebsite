@@ -93,6 +93,14 @@ export default function Footer() {
               Find us on Instagram and Facebook.
             </p>
             <SocialIcons className="mt-4" iconClassName="h-[18px] w-[18px]" />
+            <a
+              href={businessConfig.googleReviewsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-block font-sans text-sm text-muted transition-colors hover:text-gold-bright"
+            >
+              Read our Google reviews
+            </a>
           </div>
         </div>
       </div>

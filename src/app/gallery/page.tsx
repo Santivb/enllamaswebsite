@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import PageHeader from "@/components/PageHeader";
 import GalleryVideo from "@/components/GalleryVideo";
 import { getSocialUrl } from "@/lib/services/social";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Gallery",
-  description: "Real dishes off the grill at En Llamas 87.",
-};
+export const metadata = pageMeta(
+  "/gallery",
+  "Food Photos from Our Franklin Square Kitchen",
+  "Photos from the En Llamas 87 kitchen: parrillada, carne asada tacos, fajitas, empanadas, quesadillas and catering trays. 885 Hempstead Tpke, Franklin Square."
+);
 
 const KITCHEN_PHOTOS = [
   { src: "/assets/food/gallery/chicken-fajita.jpg", alt: "Grilled chicken fajita with rice, beans and pico de gallo", width: 1200, height: 801 },
