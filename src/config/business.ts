@@ -32,7 +32,7 @@ export const businessConfig = {
   // robots.txt all build off this, so it must match what the site is
   // actually served from — a stale value here points search engines and
   // link previews at a domain that does not resolve.
-  siteUrl: "https://enllamsrestaurant.com",
+  siteUrl: "https://enllamasrestaurant.com",
 
   address: {
     line1: "885 Hempstead Tpke",
